@@ -1,0 +1,38 @@
+package de.ur.mi.kilroy.kilroyapp;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.TextView;
+
+import de.ur.mi.kilroy.kilroyapp.helper.Log;
+
+/**
+ * Created by simon on 10/09/15.
+ */
+public class MarkerDetailActivity extends Activity {
+    private TextView markerNameView;
+    private TextView markerDescriptionView;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_markerdetail);
+        initUi();
+        setupViews();
+    }
+
+    private void initUi() {
+        this.markerNameView = (TextView) findViewById(R.id.view_markerName);
+        this.markerDescriptionView = (TextView) findViewById(R.id.view_markerDescription);
+    }
+
+    private void setupViews () {
+        Intent intent = getIntent();
+        String tagName = intent.getStringExtra("markerItemName");
+        String tagDescription = intent.getStringExtra("markerItemDescription");
+        Log.d("content of string tagName in detailActivity: " + tagName);
+        markerNameView.setText(tagName);
+        markerDescriptionView.setText(tagDescription);
+    }
+}
