@@ -29,11 +29,8 @@ public class MapsActivity extends FragmentActivity implements LocationUpdater.lo
 
     private static final int FIX_UPDATE_TIME = 500; // milliseconds
     private static final int FIX_UPDATE_DISTANCE = 5; // meters
-
     private LocationUpdater locationUpdater;
-
     private HashMap<Marker, MarkerItem> tagMarkerMap;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +42,6 @@ public class MapsActivity extends FragmentActivity implements LocationUpdater.lo
         Log.d("maps started");
 
     }
-
 
     private void setUpMapIfNeeded() {
         // Do a null check to confirm that we have not already instantiated the map.
@@ -60,7 +56,6 @@ public class MapsActivity extends FragmentActivity implements LocationUpdater.lo
             }
         }
     }
-
 
     private void setUpMap() {
         //mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
@@ -89,7 +84,6 @@ public class MapsActivity extends FragmentActivity implements LocationUpdater.lo
         }
     }
 
-
     private Marker placeMarker(MarkerItem markerItem) {
         Marker m = mMap.addMarker(new MarkerOptions()
                 .position(markerItem.getMarkerLocation())
@@ -97,7 +91,6 @@ public class MapsActivity extends FragmentActivity implements LocationUpdater.lo
 
         return m;
     }
-
 
     private void setMapOnInfoWindowListener() {
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
@@ -113,14 +106,12 @@ public class MapsActivity extends FragmentActivity implements LocationUpdater.lo
         });
     }
 
-
     private void requestLocationUpdates() {
         locationUpdater = new LocationUpdater(Context.LOCATION_SERVICE, FIX_UPDATE_TIME, FIX_UPDATE_DISTANCE, this);
         locationUpdater.setLocationUpdateListener(this);
         locationUpdater.requestLocationUpdates();
 
     }
-
 
     // sets the initial position of the camera when activity is opened.
     private void initMapCamera() {
@@ -133,14 +124,12 @@ public class MapsActivity extends FragmentActivity implements LocationUpdater.lo
 
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
         setUpMapIfNeeded();
 
     }
-
 
     //updates the map when the user moves a certain distance or after a certain time.
     @Override
@@ -149,7 +138,6 @@ public class MapsActivity extends FragmentActivity implements LocationUpdater.lo
             updateMap(location);
         }
     }
-
 
     private void updateMap(Location location) {
         double latitude = location.getLatitude();
