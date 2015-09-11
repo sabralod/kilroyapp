@@ -7,6 +7,9 @@ import android.location.LocationListener;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -14,14 +17,21 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 import de.ur.mi.kilroy.kilroyapp.helper.DummyMarker;
 import de.ur.mi.kilroy.kilroyapp.helper.LocationUpdater;
 import de.ur.mi.kilroy.kilroyapp.helper.Log;
 import de.ur.mi.kilroy.kilroyapp.items.MarkerItem;
+import de.ur.mi.kilroy.kilroyapp.items.PostItem;
+import de.ur.mi.kilroy.kilroyapp.items.Wrap;
 
 public class MapsActivity extends FragmentActivity implements LocationUpdater.locationUpdateListener {
 
@@ -64,25 +74,47 @@ public class MapsActivity extends FragmentActivity implements LocationUpdater.lo
         setMapOnInfoWindowListener();
     }
 
-
     private void setupMarkers() {
-        DummyMarker dummys = new DummyMarker();
-        ArrayList<MarkerItem> dummyMarkers = dummys.getDummyMarkers();
-        tagMarkerMap = new HashMap<>();
+        String url = "http://kilroybackend-kilroybackend.rhcloud.com/api/posts";
+//        String url = "http://localhost:8080/api/posts";
+        StringRequest request = new StringRequest(url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Type type = new TypeToken<Collection<PostItem>>(){}.getType();
+                Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+                Collection<PostItem> postItems = gson.fromJson(response, type);
 
-        for (int i = 0; i < dummyMarkers.size(); i++) {
-            MarkerItem markerItem = dummyMarkers.get(i);
-            Marker marker = placeMarker(markerItem);
-            tagMarkerMap.put(marker, markerItem);
 
-            if(tagMarkerMap.get(marker).equals(markerItem)){
-                Log.d("marker is palced and added to hashmap");
-            }else{
-                Log.d("marker is placed but not in hashmap");
             }
+        }, new Response.ErrorListener() {
 
-        }
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("VolleyError: ", error.getMessage());
+            }
+        });
+        AppController.getInstance().addToRequestQueue(request);
+
+
     }
+//    private void setupMarkers() {
+//        DummyMarker dummys = new DummyMarker();
+//        ArrayList<MarkerItem> dummyMarkers = dummys.getDummyMarkers();
+//        tagMarkerMap = new HashMap<>();
+//
+//        for (int i = 0; i < dummyMarkers.size(); i++) {
+//            MarkerItem markerItem = dummyMarkers.get(i);
+//            Marker marker = placeMarker(markerItem);
+//            tagMarkerMap.put(marker, markerItem);
+//
+//            if(tagMarkerMap.get(marker).equals(markerItem)){
+//                Log.d("marker is palced and added to hashmap");
+//            }else{
+//                Log.d("marker is placed but not in hashmap");
+//            }
+//
+//        }
+//    }
 
     private Marker placeMarker(MarkerItem markerItem) {
         Marker m = mMap.addMarker(new MarkerOptions()
