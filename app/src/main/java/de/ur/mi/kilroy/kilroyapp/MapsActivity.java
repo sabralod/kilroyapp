@@ -3,8 +3,8 @@ package de.ur.mi.kilroy.kilroyapp;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -77,7 +77,8 @@ public class MapsActivity extends FragmentActivity implements LocationUpdater.lo
         StringRequest request = new StringRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Type type = new TypeToken<Collection<PostItem>>(){}.getType();
+                Type type = new TypeToken<Collection<PostItem>>() {
+                }.getType();
                 Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
                 Collection<PostItem> postItems = gson.fromJson(response, type);
 
@@ -95,7 +96,6 @@ public class MapsActivity extends FragmentActivity implements LocationUpdater.lo
             }
         });
         AppController.getInstance().addToRequestQueue(request);
-
 
 
     }
@@ -170,6 +170,7 @@ public class MapsActivity extends FragmentActivity implements LocationUpdater.lo
     public void onLocationUpdateReceived(Location location) {
         if (location != null) {
             updateMap(location);
+            setupMarkers();
         }
     }
 
