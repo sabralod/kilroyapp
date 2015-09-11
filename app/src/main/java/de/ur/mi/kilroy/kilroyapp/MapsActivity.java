@@ -3,7 +3,6 @@ package de.ur.mi.kilroy.kilroyapp;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
-import android.location.LocationListener;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
@@ -22,16 +21,13 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
-import de.ur.mi.kilroy.kilroyapp.helper.DummyMarker;
 import de.ur.mi.kilroy.kilroyapp.helper.LocationUpdater;
 import de.ur.mi.kilroy.kilroyapp.helper.Log;
 import de.ur.mi.kilroy.kilroyapp.items.MarkerItem;
 import de.ur.mi.kilroy.kilroyapp.items.PostItem;
-import de.ur.mi.kilroy.kilroyapp.items.Wrap;
 
 public class MapsActivity extends FragmentActivity implements LocationUpdater.locationUpdateListener {
 
