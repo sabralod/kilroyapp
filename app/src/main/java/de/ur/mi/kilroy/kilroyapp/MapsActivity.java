@@ -75,6 +75,7 @@ public class MapsActivity extends FragmentActivity implements LocationUpdater.lo
     }
 
     private void setupMarkers() {
+        tagMarkerMap = new HashMap<>();
         String url = "http://kilroybackend-kilroybackend.rhcloud.com/api/posts";
 //        String url = "http://localhost:8080/api/posts";
         StringRequest request = new StringRequest(url, new Response.Listener<String>() {
@@ -84,6 +85,10 @@ public class MapsActivity extends FragmentActivity implements LocationUpdater.lo
                 Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
                 Collection<PostItem> postItems = gson.fromJson(response, type);
 
+                for (MarkerItem item : postItems) {
+                    Marker marker = placeMarker(item);
+                    tagMarkerMap.put(marker, item);
+                }
 
             }
         }, new Response.ErrorListener() {
@@ -94,6 +99,7 @@ public class MapsActivity extends FragmentActivity implements LocationUpdater.lo
             }
         });
         AppController.getInstance().addToRequestQueue(request);
+
 
 
     }
