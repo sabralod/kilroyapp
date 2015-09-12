@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -31,10 +33,10 @@ import de.ur.mi.kilroy.kilroyapp.items.PostItem;
 
 public class MapsActivity extends FragmentActivity implements LocationUpdater.locationUpdateListener {
 
-    private GoogleMap mMap; // Might be null if Google Play services APK is not available.
-
+    private static final int NFC_TAG_WRITER_REQUEST = 101;
     private static final int FIX_UPDATE_TIME = 500; // milliseconds
     private static final int FIX_UPDATE_DISTANCE = 5; // meters
+    private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private LocationUpdater locationUpdater;
     private HashMap<Marker, MarkerItem> tagMarkerMap;
 
@@ -46,7 +48,6 @@ public class MapsActivity extends FragmentActivity implements LocationUpdater.lo
         requestLocationUpdates();
         initMapCamera();
         Log.d("maps started");
-
     }
 
     private void setUpMapIfNeeded() {
@@ -72,9 +73,9 @@ public class MapsActivity extends FragmentActivity implements LocationUpdater.lo
 
     private void setupMarkers() {
         tagMarkerMap = new HashMap<>();
-        String url = "http://kilroybackend-kilroybackend.rhcloud.com/api/posts";
+
 //        String url = "http://localhost:8080/api/posts";
-        StringRequest request = new StringRequest(url, new Response.Listener<String>() {
+        StringRequest request = new StringRequest(AppController.URL + "posts", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Type type = new TypeToken<Collection<PostItem>>() {
@@ -172,6 +173,38 @@ public class MapsActivity extends FragmentActivity implements LocationUpdater.lo
             updateMap(location);
             setupMarkers();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        super.onCreateOptionsMenu(menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_write_tag) {
+            Intent intent = new Intent(MapsActivity.this, KilroyNfcTagWriterActivity.class);
+            intent.putExtra("lat", locationUpdater.getLastKnownLocation().getLatitude());
+            intent.putExtra("lng", locationUpdater.getLastKnownLocation().getLongitude());
+            startActivityForResult(intent, NFC_TAG_WRITER_REQUEST);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == NFC_TAG_WRITER_REQUEST) {
+            if (resultCode == KilroyNfcTagWriterActivity.NFC_TAG_WRITER_DONE) {
+
+            }
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void updateMap(Location location) {

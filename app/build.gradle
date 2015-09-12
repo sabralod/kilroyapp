@@ -26,4 +26,5 @@ dependencies {
     compile 'com.google.android.gms:play-services:7.8.0'
     compile 'com.mcxiaoke.volley:library:1.0.19'
     compile 'com.google.code.gson:gson:2.3.1'
+    compile 'com.google.code.ndef-tools-for-android:ndeftools-util:1.2.4'
 }

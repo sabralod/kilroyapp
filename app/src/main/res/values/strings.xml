@@ -1,4 +1,26 @@
 <resources>
     <string name="app_name">KilroyApp</string>
     <string name="title_activity_maps">KilroyApp</string>
+    <string name="title_activity_nfc">NfcActivity</string>
+    <string name="default_note_text">Edit me!</string>
+    <string name="write_to_tag">Write to tag</string>
+    <string name="readMultipleRecordNDEFMessage">Reading multiple record NDEF message</string>
+    <string name="readSingleRecordNDEFMessage">Reading single record NDEF message</string>
+    <string name="noNfcMessage">No NFC support</string>
+    <string name="nfcAvailableEnabled">NFC available and enabled</string>
+    <string name="nfcAvailableDisabled">NFC available but disabled</string>
+    <string name="readEmptyMessage">Empty message</string>
+    <string name="readNonNDEFMessage">No NDEF message</string>
+    <string name="ndefWriteFailed">Write failed</string>
+    <string name="tagNotWritable">Tag not writable</string>
+    <string name="tagTooSmallMessage">Message size %1$d bytes exceeds tag capacity of %2$d bytes</string>
+    <string name="cannotWriteTechMessage">Cannot write tech or unformatted tag</string>
+    <string name="ndefWriteSuccess">Write success</string>
+    <string name="nfcSettingEnabled">NFC enabled in settings</string>
+    <string name="nfcSettingDisabled">NFC disabled in settings</string>
+    <string name="NfcReaderActivity">Tag Writer</string>
+    <string name="action_write_tag">Write to tag</string>
+    <string name="Title">title</string>
+    <string name="title_activity_nfc_write">Write NFC Tag</string>
+    <string name="title_activity_nfc_read">Read NFC tag</string>
 </resources>

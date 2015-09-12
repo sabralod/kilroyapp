@@ -3,7 +3,6 @@ package de.ur.mi.kilroy.kilroyapp.items;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,6 +17,15 @@ public class PostItem implements MarkerItem {
     private List<CommentItem> comments;
     private BigDecimal lat;
     private BigDecimal lng;
+    private String nfc_id;
+
+    public String getNfc_id() {
+        return nfc_id;
+    }
+
+    public void setNfc_id(String nfc_id) {
+        this.nfc_id = nfc_id;
+    }
 
     public BigDecimal getLat() {
         return lat;
@@ -88,6 +96,7 @@ public class PostItem implements MarkerItem {
 
     @Override
     public String getDescription() {
-        return getContent();
+//        return getContent();
+        return getContent().concat("/n").concat("nfc_id: ".concat(nfc_id));
     }
 }

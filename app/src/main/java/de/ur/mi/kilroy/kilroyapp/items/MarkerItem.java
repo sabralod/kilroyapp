@@ -7,6 +7,8 @@ import com.google.android.gms.maps.model.LatLng;
  */
 public interface MarkerItem {
     String getName();
+
     LatLng getMarkerLocation();
+
     String getDescription();
 }

@@ -10,13 +10,11 @@ import android.os.Bundle;
  * Created by simon on 10/09/15.
  */
 public class LocationUpdater implements LocationListener {
+    private static final String provider = LocationManager.GPS_PROVIDER;
     private String locationService;
     private int time;
     private int distance;
     private Context context;
-
-    private static final String provider = LocationManager.GPS_PROVIDER;
-
     private locationUpdateListener locationReceiver;
 
     private LocationManager locationManager;

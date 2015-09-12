@@ -12,17 +12,19 @@ import com.android.volley.toolbox.Volley;
 public class AppController extends Application {
 
     public static final String TAG = AppController.class.getSimpleName();
+    public static final String URL = "http://kilroybackend-kilroybackend.rhcloud.com/api/";
     private static AppController appControllerInstance;
     private RequestQueue requestQueue;
+
+    public static synchronized AppController getInstance() {
+        return appControllerInstance;
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
         appControllerInstance = this;
-    }
 
-    public static synchronized AppController getInstance() {
-        return appControllerInstance;
     }
 
     public RequestQueue getRequestQueue() {
