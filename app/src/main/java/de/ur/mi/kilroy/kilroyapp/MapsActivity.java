@@ -1,8 +1,11 @@
 package de.ur.mi.kilroy.kilroyapp;
 
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.location.Location;
+import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
@@ -33,11 +36,16 @@ import de.ur.mi.kilroy.kilroyapp.items.PostItem;
 
 public class MapsActivity extends FragmentActivity implements LocationUpdater.locationUpdateListener {
 
-    private static final int NFC_TAG_WRITER_REQUEST = 101;
     private static final int FIX_UPDATE_TIME = 500; // milliseconds
     private static final int FIX_UPDATE_DISTANCE = 5; // meters
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
-    private LocationUpdater locationUpdater;
+    private static LocationUpdater locationUpdater;
+    private IntentFilter[] intentFiltersArray;
+
+    public static LocationUpdater getLocationUpdater() {
+        return getLocationUpdater();
+    }
+
     private HashMap<Marker, MarkerItem> tagMarkerMap;
 
     @Override
@@ -48,6 +56,20 @@ public class MapsActivity extends FragmentActivity implements LocationUpdater.lo
         requestLocationUpdates();
         initMapCamera();
         Log.d("maps started");
+
+//        PendingIntent pendingIntent = PendingIntent.getActivity(
+//                this, 0, new Intent(this, KilroyNfcReaderActivity.class.getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+//
+//        IntentFilter ndef = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
+//        try {
+//            ndef.addDataType("*/*");    /* Handles all MIME based dispatches.
+//                                       You should specify only the ones that you need. */
+//        }
+//        catch (IntentFilter.MalformedMimeTypeException e) {
+//            throw new RuntimeException("fail", e);
+//        }
+//        intentFiltersArray = new IntentFilter[] {ndef, };
+
     }
 
     private void setUpMapIfNeeded() {
@@ -189,7 +211,7 @@ public class MapsActivity extends FragmentActivity implements LocationUpdater.lo
             Intent intent = new Intent(MapsActivity.this, KilroyNfcTagWriterActivity.class);
             intent.putExtra("lat", locationUpdater.getLastKnownLocation().getLatitude());
             intent.putExtra("lng", locationUpdater.getLastKnownLocation().getLongitude());
-            startActivityForResult(intent, NFC_TAG_WRITER_REQUEST);
+            startActivityForResult(intent, AppController.NFC_TAG_WRITER_REQUEST);
         }
 
         return super.onOptionsItemSelected(item);
@@ -198,9 +220,9 @@ public class MapsActivity extends FragmentActivity implements LocationUpdater.lo
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (requestCode == NFC_TAG_WRITER_REQUEST) {
+        if (requestCode == AppController.NFC_TAG_WRITER_REQUEST) {
             if (resultCode == KilroyNfcTagWriterActivity.NFC_TAG_WRITER_DONE) {
-
+                // TODO: Any result here?
             }
         }
 
