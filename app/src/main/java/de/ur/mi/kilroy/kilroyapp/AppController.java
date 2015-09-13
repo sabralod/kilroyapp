@@ -1,8 +1,6 @@
 package de.ur.mi.kilroy.kilroyapp;
 
 import android.app.Application;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -54,15 +52,5 @@ public class AppController extends Application {
     public void cancelPendingRequest(Object tag) {
         if (requestQueue != null)
             requestQueue.cancelAll(tag);
-    }
-
-    public static String getPlayIdentifier() {
-        PackageInfo pi;
-        try {
-            pi = appControllerInstance.getPackageManager().getPackageInfo(appControllerInstance.getPackageName(), 0);
-            return pi.applicationInfo.packageName;
-        } catch (final PackageManager.NameNotFoundException e) {
-            return appControllerInstance.getClass().getPackage().getName();
-        }
     }
 }

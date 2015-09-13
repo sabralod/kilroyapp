@@ -1,13 +1,12 @@
 package de.ur.mi.kilroy.kilroyapp;
 
-import android.app.PendingIntent;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
-import android.nfc.tech.NfcA;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.android.volley.Response;
@@ -24,14 +23,11 @@ import com.google.gson.reflect.TypeToken;
 import org.ndeftools.Message;
 import org.ndeftools.MimeRecord;
 import org.ndeftools.Record;
-import org.ndeftools.externaltype.AndroidApplicationRecord;
 import org.ndeftools.externaltype.ExternalTypeRecord;
 import org.ndeftools.util.activity.NfcReaderActivity;
 import org.ndeftools.wellknown.TextRecord;
 
-import java.io.IOException;
 import java.lang.reflect.Type;
-import java.nio.charset.Charset;
 import java.util.Collection;
 
 import de.ur.mi.kilroy.kilroyapp.helper.Log;
@@ -43,9 +39,6 @@ import de.ur.mi.kilroy.kilroyapp.items.PostItem;
  */
 public class MainActivity extends NfcReaderActivity implements OnMapReadyCallback {
     private GoogleMap googleMap;
-    private NfcAdapter nfcAdapter;
-    private PendingIntent nfcPendingIntent;
-    private IntentFilter[] ndefIntentFilters;
     protected Message message;
 
     @Override
@@ -61,23 +54,28 @@ public class MainActivity extends NfcReaderActivity implements OnMapReadyCallbac
 
         // NFC
 
-        nfcAdapter = nfcAdapter.getDefaultAdapter(this);
+        setDetecting(true);
+    }
 
-        nfcPendingIntent = PendingIntent.getActivity(
-                this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        super.onCreateOptionsMenu(menu);
+        return true;
+    }
 
-        IntentFilter ndefIntentFilter = new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED);
-        try {
-            AndroidApplicationRecord androidApplicationRecord = new AndroidApplicationRecord();
-            androidApplicationRecord.setPackageName(AppController.getPlayIdentifier());
-            ndefIntentFilter.addDataType(androidApplicationRecord.toString());
-        } catch (IntentFilter.MalformedMimeTypeException e) {
-            Log.d(e.getMessage());
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_write_tag) {
+            setDetecting(false);
+            Intent intent = new Intent(MainActivity.this, KilroyNfcTagWriterActivity.class);
+            intent.putExtra("lat", googleMap.getMyLocation());
+            intent.putExtra("lng", googleMap.getMyLocation());
+            startActivityForResult(intent, AppController.NFC_TAG_WRITER_REQUEST);
         }
 
-        ndefIntentFilters = new IntentFilter[]{ndefIntentFilter,};
-
-        setDetecting(true);
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -100,17 +98,19 @@ public class MainActivity extends NfcReaderActivity implements OnMapReadyCallbac
             Record record = message.get(k);
 
             Log.d("Record " + k + " type " + record.getClass().getSimpleName());
-
-            // your own code here, for example:
+            String s = "";
             if (record instanceof MimeRecord) {
-                // ..
+                s = new String(record.getNdefRecord().toString());
             } else if (record instanceof ExternalTypeRecord) {
-                // ..
+                s = new String(record.getNdefRecord().toString());
             } else if (record instanceof TextRecord) {
-                // ..
+                TextRecord textRecord = (TextRecord) record;
+                s = textRecord.getText();
             } else { // more else
-                // ..
+                s = new String(record.getNdefRecord().toString());
             }
+
+            toast(s);
         }
     }
 
@@ -124,18 +124,18 @@ public class MainActivity extends NfcReaderActivity implements OnMapReadyCallbac
         toast(getString(R.string.readNonNDEFMessage));
         Tag tag = getIntent().getParcelableExtra(NfcAdapter.EXTRA_TAG);
 
-        NfcA nfcA = NfcA.get(tag);
-
-        try {
-            nfcA.connect();
-            Short s = nfcA.getSak();
-            byte[] b = nfcA.getAtqa();
-            String msg = new String(b, Charset.forName("UTF-8"));
-            nfcA.close();
-        } catch (IOException e) {
-            Log.d(e.getMessage());
-            toast("Error");
-        }
+//        NfcA nfcA = NfcA.get(tag);
+//
+//        try {
+//            nfcA.connect();
+//            Short s = nfcA.getSak();
+//            byte[] b = nfcA.getAtqa();
+//            String msg = new String(b, Charset.forName("UTF-8"));
+//            nfcA.close();
+//        } catch (IOException e) {
+//            Log.d(e.getMessage());
+//            toast("Error");
+//        }
     }
 
     @Override
@@ -167,73 +167,6 @@ public class MainActivity extends NfcReaderActivity implements OnMapReadyCallbac
         toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
         toast.show();
     }
-
-    //    void resolveIntent(Intent intent) {
-//        // Parse the intent
-//        String action = intent.getAction();
-//        if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(action)) {
-//            // When a tag is discovered we send it to the service to be save. We
-//            // include a PendingIntent for the service to call back onto. This
-//            // will cause this activity to be restarted with onNewIntent(). At
-//            // that time we read it from the database and view it.
-//            Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
-//            NdefMessage[] msgs;
-//            if (rawMsgs != null) {
-//                msgs = new NdefMessage[rawMsgs.length];
-//                for (int i = 0; i < rawMsgs.length; i++) {
-//                    msgs[i] = (NdefMessage) rawMsgs[i];
-//                }
-//            } else {
-//                // Unknown tag type
-//                byte[] empty = new byte[]{};
-//                NdefRecord record = new NdefRecord(NdefRecord.TNF_UNKNOWN, empty, empty, empty);
-//                NdefMessage msg = new NdefMessage(new NdefRecord[]{record});
-//                msgs = new NdefMessage[]{msg};
-//            }
-//        } else {
-//            Log.d("Unknown intent " + intent);
-//            finish();
-//            return;
-//        }
-//    }
-
-//    @Override
-//    public void onNewIntent(Intent intent) {
-////        setIntent(intent);
-////        resolveIntent(intent);
-//        if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(intent.getAction())) {
-//            Log.d("Here i am.");
-//            NdefMessage[] ndefMessages = getNdefMessages(intent);
-//        }
-//    }
-
-//    NdefMessage[] getNdefMessages(Intent intent) {
-//        // Parse the intent
-//        NdefMessage[] msgs = null;
-//        String action = intent.getAction();
-//        if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(action)
-//                || NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)) {
-//            Parcelable[] rawMsgs =
-//                    intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
-//            if (rawMsgs != null) {
-//                msgs = new NdefMessage[rawMsgs.length];
-//                for (int i = 0; i < rawMsgs.length; i++) {
-//                    msgs[i] = (NdefMessage) rawMsgs[i];
-//                }
-//            } else {
-//                // Unknown tag type
-//                byte[] empty = new byte[]{};
-//                NdefRecord record =
-//                        new NdefRecord(NdefRecord.TNF_UNKNOWN, empty, empty, empty);
-//                NdefMessage msg = new NdefMessage(new NdefRecord[]{record});
-//                msgs = new NdefMessage[]{msg};
-//            }
-//        } else {
-//            Log.d("Unknown intent.");
-//            finish();
-//        }
-//        return msgs;
-//    }
 
     @Override
     public void onMapReady(GoogleMap map) {
@@ -269,11 +202,4 @@ public class MainActivity extends NfcReaderActivity implements OnMapReadyCallbac
         });
         AppController.getInstance().addToRequestQueue(request);
     }
-
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        nfcAdapter.enableForegroundDispatch(this, nfcPendingIntent,
-//                ndefIntentFilters, null);
-//    }
 }

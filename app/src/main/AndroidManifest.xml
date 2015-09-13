@@ -43,9 +43,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
-                <action android:name="android.nfc.action.TAG_DISCOVERED"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
             </intent-filter>
+
+            <!--<intent-filter>-->
+                <!--<action android:name="android.nfc.action.TECH_DISCOVERED"/>-->
+                <!--<category android:name="android.intent.category.DEFAULT"/>-->
+            <!--</intent-filter>-->
             <!--<meta-data-->
             <!--android:name="android.nfc.action.TECH_DISCOVERED"-->
             <!--android:resource="@xml/nfc_tech_filter" />-->
@@ -53,21 +59,6 @@
         <activity
             android:name=".MarkerDetailActivity"
             android:label="MarkerDetail"/>
-        <activity
-            android:name=".KilroyNfcReaderActivity"
-            android:label="@string/title_activity_nfc_read">
-
-            <!--<intent-filter>-->
-                <!--<action android:name="android.nfc.action.NDEF_DISCOVERED" />-->
-                <!--<data android:mimeType="*/*"/>-->
-                <!--&lt;!&ndash;<data android:mimeType="application/de.ur.mi.kilroy.kilroyapp"/>&ndash;&gt;-->
-                <!--<category android:name="android.intent.category.DEFAULT" />-->
-            <!--</intent-filter>-->
-
-            <!--<meta-data-->
-                <!--android:name="android.nfc.action.TECH_DISCOVERED"-->
-                <!--android:resource="@xml/nfc_tech_filter" />-->
-        </activity>
         <activity
             android:name=".KilroyNfcTagWriterActivity"
             android:label="@string/title_activity_nfc_write"></activity>

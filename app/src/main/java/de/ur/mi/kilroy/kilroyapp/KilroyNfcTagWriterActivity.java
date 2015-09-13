@@ -1,7 +1,5 @@
 package de.ur.mi.kilroy.kilroyapp;
 
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.nfc.NdefMessage;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -18,7 +16,6 @@ import com.google.gson.GsonBuilder;
 
 import org.json.JSONObject;
 import org.ndeftools.Message;
-import org.ndeftools.externaltype.AndroidApplicationRecord;
 import org.ndeftools.util.activity.NfcTagWriterActivity;
 import org.ndeftools.wellknown.TextRecord;
 
@@ -64,12 +61,9 @@ public class KilroyNfcTagWriterActivity extends NfcTagWriterActivity {
         Message message = new Message();
 
         // add an Android Application Record so that this app is launches if a tag is scanned :-)
-        AndroidApplicationRecord androidApplicationRecord = new AndroidApplicationRecord();
-        androidApplicationRecord.setPackageName(AppController.getPlayIdentifier());
-        message.add(androidApplicationRecord);
-
         // add a Text Record with the message which is entered
         TextRecord textRecord = new TextRecord();
+        textRecord.setKey("uuid");
         textRecord.setText(uuid.toString());
         textRecord.setEncoding(Charset.forName("UTF-8"));
         textRecord.setLocale(Locale.ENGLISH);
