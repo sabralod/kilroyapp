@@ -185,6 +185,7 @@ public class MainActivity extends NfcReaderActivity implements OnMapReadyCallbac
         googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
+                // TODO: Start MarkerDetailActivity here.
                 return false;
             }
         });
