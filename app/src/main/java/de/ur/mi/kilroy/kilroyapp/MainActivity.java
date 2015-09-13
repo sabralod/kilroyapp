@@ -15,6 +15,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -106,6 +107,9 @@ public class MainActivity extends NfcReaderActivity implements OnMapReadyCallbac
             } else if (record instanceof TextRecord) {
                 TextRecord textRecord = (TextRecord) record;
                 s = textRecord.getText();
+
+                // TODO: Start PostboardActivity here
+
             } else { // more else
                 s = new String(record.getNdefRecord().toString());
             }
@@ -178,7 +182,13 @@ public class MainActivity extends NfcReaderActivity implements OnMapReadyCallbac
     private void updateMap() {
 
         googleMap.setMyLocationEnabled(true);
-        googleMap.getUiSettings().setMapToolbarEnabled(true);
+        googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                return false;
+            }
+        });
+
         StringRequest request = new StringRequest(AppController.URL + "posts", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -202,4 +212,5 @@ public class MainActivity extends NfcReaderActivity implements OnMapReadyCallbac
         });
         AppController.getInstance().addToRequestQueue(request);
     }
+
 }
