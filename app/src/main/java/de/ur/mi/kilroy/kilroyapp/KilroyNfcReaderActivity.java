@@ -1,7 +1,10 @@
 package de.ur.mi.kilroy.kilroyapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import org.ndeftools.Message;
@@ -24,6 +27,7 @@ public class KilroyNfcReaderActivity extends NfcReaderActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_nfc_reader);
         setDetecting(true);
     }
 
@@ -106,5 +110,25 @@ public class KilroyNfcReaderActivity extends NfcReaderActivity {
         Toast toast = Toast.makeText(this, message, Toast.LENGTH_LONG);
         toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
         toast.show();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_write_tag) {
+            Intent intent = new Intent(this, KilroyNfcTagWriterActivity.class);
+            intent.putExtra("lat", MapsActivity.getLocationUpdater().getLastKnownLocation().getLatitude());
+            intent.putExtra("lng", MapsActivity.getLocationUpdater().getLastKnownLocation().getLongitude());
+            startActivityForResult(intent, AppController.NFC_TAG_WRITER_REQUEST);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        super.onCreateOptionsMenu(menu);
+        return true;
     }
 }
