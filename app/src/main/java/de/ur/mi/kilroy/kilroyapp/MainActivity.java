@@ -31,6 +31,7 @@ import org.ndeftools.wellknown.TextRecord;
 import java.lang.reflect.Type;
 import java.util.Collection;
 
+import de.ur.mi.kilroy.kilroyapp.adapters.PostItemAdapter;
 import de.ur.mi.kilroy.kilroyapp.helper.Log;
 import de.ur.mi.kilroy.kilroyapp.items.MarkerItem;
 import de.ur.mi.kilroy.kilroyapp.items.PostItem;
@@ -107,6 +108,8 @@ public class MainActivity extends NfcReaderActivity implements OnMapReadyCallbac
             } else if (record instanceof TextRecord) {
                 TextRecord textRecord = (TextRecord) record;
                 s = textRecord.getText();
+
+                PostItemAdapter postItemAdapter = new PostItemAdapter(s);
 
                 // TODO: Start PostboardActivity here
 
