@@ -11,6 +11,7 @@ import com.android.volley.toolbox.Volley;
  */
 public class AppController extends Application {
 
+    public static final int NFC_TAG_WRITER_REQUEST = 101;
     public static final String TAG = AppController.class.getSimpleName();
     public static final String URL = "http://kilroybackend-kilroybackend.rhcloud.com/api/";
     private static AppController appControllerInstance;
