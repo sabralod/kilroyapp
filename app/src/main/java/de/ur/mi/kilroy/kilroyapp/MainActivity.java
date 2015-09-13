@@ -30,6 +30,7 @@ import org.ndeftools.wellknown.TextRecord;
 
 import java.lang.reflect.Type;
 import java.util.Collection;
+import java.util.HashMap;
 
 import de.ur.mi.kilroy.kilroyapp.helper.Log;
 import de.ur.mi.kilroy.kilroyapp.items.MarkerItem;
@@ -41,6 +42,7 @@ import de.ur.mi.kilroy.kilroyapp.items.PostItem;
 public class MainActivity extends NfcReaderActivity implements OnMapReadyCallback {
     private GoogleMap googleMap;
     protected Message message;
+    private HashMap<Marker, MarkerItem> markerHashMap;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,7 @@ public class MainActivity extends NfcReaderActivity implements OnMapReadyCallbac
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map_fragment);
         mapFragment.getMapAsync(this);
+        markerHashMap = new HashMap<>();
 
         // NFC
 
@@ -186,6 +189,11 @@ public class MainActivity extends NfcReaderActivity implements OnMapReadyCallbac
             @Override
             public boolean onMarkerClick(Marker marker) {
                 // TODO: Start MarkerDetailActivity here.
+                Intent intent = new Intent(MainActivity.this, MarkerDetailActivity.class);
+                MarkerItem item = markerHashMap.get(marker);
+                intent.putExtra("name",item.getName());
+                intent.putExtra("description", item.getDescription());
+                startActivity(intent);
                 return false;
             }
         });
@@ -199,7 +207,9 @@ public class MainActivity extends NfcReaderActivity implements OnMapReadyCallbac
                 Collection<PostItem> postItems = gson.fromJson(response, type);
 
                 for (MarkerItem item : postItems) {
-                    googleMap.addMarker(new MarkerOptions().position(item.getMarkerLocation()).title(item.getName()).snippet(item.getDescription()));
+
+                   Marker marker = googleMap.addMarker(new MarkerOptions().position(item.getMarkerLocation()).title(item.getName()).snippet(item.getDescription()));
+                    markerHashMap.put(marker, item);
                 }
 
 

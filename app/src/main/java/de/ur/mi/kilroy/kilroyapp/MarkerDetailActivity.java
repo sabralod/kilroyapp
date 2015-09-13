@@ -29,8 +29,8 @@ public class MarkerDetailActivity extends Activity {
 
     private void setupViews() {
         Intent intent = getIntent();
-        String tagName = intent.getStringExtra("markerItemName");
-        String tagDescription = intent.getStringExtra("markerItemDescription");
+        String tagName = intent.getStringExtra("name");
+        String tagDescription = intent.getStringExtra("description");
         Log.d("content of string tagName in detailActivity: " + tagName);
         markerNameView.setText(tagName);
         markerDescriptionView.setText(tagDescription);
