@@ -1,5 +1,7 @@
 package de.ur.mi.kilroy.kilroyapp;
 
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.nfc.NdefMessage;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -63,7 +65,7 @@ public class KilroyNfcTagWriterActivity extends NfcTagWriterActivity {
 
         // add an Android Application Record so that this app is launches if a tag is scanned :-)
         AndroidApplicationRecord androidApplicationRecord = new AndroidApplicationRecord();
-//        androidApplicationRecord.setPackageName(getPlayIdentifier());
+        androidApplicationRecord.setPackageName(getPlayIdentifier());
         message.add(androidApplicationRecord);
 
         // add a Text Record with the message which is entered
@@ -170,6 +172,16 @@ public class KilroyNfcTagWriterActivity extends NfcTagWriterActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private String getPlayIdentifier() {
+        PackageInfo pi;
+        try {
+            pi = getPackageManager().getPackageInfo(getPackageName(), 0);
+            return pi.applicationInfo.packageName;
+        } catch (final PackageManager.NameNotFoundException e) {
+            return getClass().getPackage().getName();
+        }
     }
 
     public void toast(String message) {
