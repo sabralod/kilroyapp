@@ -116,6 +116,12 @@ public class MainActivity extends NfcReaderActivity implements OnMapReadyCallbac
 
                 // TODO: Start PostboardActivity here
 
+                PostItem postItem = postItemAdapter.getPostItem();
+                Intent intent = new Intent();
+                intent.putExtra("title",postItem.getName());
+                intent.putExtra("description", postItem.getDescription());
+                startActivity(intent);
+
             } else { // more else
                 s = new String(record.getNdefRecord().toString());
             }
