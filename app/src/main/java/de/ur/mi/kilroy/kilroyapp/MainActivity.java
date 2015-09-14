@@ -120,6 +120,7 @@ public class MainActivity extends NfcReaderActivity implements OnMapReadyCallbac
                 Intent intent = new Intent();
                 intent.putExtra("title",postItem.getName());
                 intent.putExtra("description", postItem.getDescription());
+                intent.putExtra("uuid",s);
                 startActivity(intent);
 
             } else { // more else
