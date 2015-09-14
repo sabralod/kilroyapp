@@ -25,13 +25,12 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.UUID;
 
-import de.ur.mi.kilroy.kilroyapp.helper.Log;
 import de.ur.mi.kilroy.kilroyapp.items.PostItem;
 
 /**
  * Created by simon on 12/09/15.
  */
-public class KilroyNfcTagWriterActivity extends NfcTagWriterActivity {
+public class KilroyNfcTagWriterActivity extends NfcTagWriterActivity implements Response.Listener<JSONObject>, Response.ErrorListener {
     public static final int NFC_TAG_WRITER_DONE = 200;
 
     private double lat;
@@ -54,6 +53,7 @@ public class KilroyNfcTagWriterActivity extends NfcTagWriterActivity {
         contentEditText = (EditText) findViewById(R.id.contentEditView);
 
         uuid = UUID.randomUUID();
+        setDetecting(false);
     }
 
     @Override
@@ -149,21 +149,24 @@ public class KilroyNfcTagWriterActivity extends NfcTagWriterActivity {
             params.put("lng", "" + lng);
             params.put("nfc_id", nfc_id);
 
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(AppController.URL + "posts", new JSONObject(params), new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-                    PostItem postItem = gson.fromJson(response.toString(), PostItem.class);
-                    if (postItem != null) {
-                        setDetecting(true);
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.d("VolleyError: ", error.getMessage());
-                }
-            });
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(AppController.URL + "posts", new JSONObject(params), this, this);
+
+//                    new JSONObject(params), new Response.Listener<JSONObject>() {
+//                @Override
+//                public void onResponse(JSONObject response) {
+//                    Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+//                    PostItem postItem = gson.fromJson(response.toString(), PostItem.class);
+//                    if (postItem != null) {
+//                        setDetecting(true);
+//                    }
+//                }
+//            }, new Response.ErrorListener() {
+//                @Override
+//                public void onErrorResponse(VolleyError error) {
+//                    Log.d("VolleyError: ", error.getMessage());
+//                }
+//            }
+//            );
 
 
             AppController.getInstance().addToRequestQueue(jsonObjectRequest);
@@ -177,5 +180,21 @@ public class KilroyNfcTagWriterActivity extends NfcTagWriterActivity {
         Toast toast = Toast.makeText(this, message, Toast.LENGTH_LONG);
         toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
         toast.show();
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+//        Log.d("VolleyError: ", error.getMessage());
+        toast("Write failed.");
+        setDetecting(false);
+    }
+
+    @Override
+    public void onResponse(JSONObject response) {
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+        PostItem postItem = gson.fromJson(response.toString(), PostItem.class);
+        if (postItem != null) {
+            setDetecting(true);
+        }
     }
 }

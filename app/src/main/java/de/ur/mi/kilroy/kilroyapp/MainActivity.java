@@ -110,8 +110,9 @@ public class MainActivity extends NfcReaderActivity implements OnMapReadyCallbac
             } else if (record instanceof TextRecord) {
                 TextRecord textRecord = (TextRecord) record;
                 s = textRecord.getText();
-                // TODO: Start PostboardActivity here
+                // TODO: Filter Write Intent
 
+                setDetecting(false);
                 Intent intent = new Intent(MainActivity.this, PostboardActivity.class);
                 intent.putExtra("uuid", s);
                 startActivity(intent);
@@ -205,10 +206,9 @@ public class MainActivity extends NfcReaderActivity implements OnMapReadyCallbac
         googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                // TODO: Start MarkerDetailActivity here.
                 Intent intent = new Intent(MainActivity.this, MarkerDetailActivity.class);
                 MarkerItem item = markerHashMap.get(marker);
-                intent.putExtra("name",item.getName());
+                intent.putExtra("name", item.getName());
                 intent.putExtra("description", item.getDescription());
                 startActivity(intent);
                 return false;
