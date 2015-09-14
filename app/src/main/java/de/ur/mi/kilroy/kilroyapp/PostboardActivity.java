@@ -44,6 +44,13 @@ public class PostboardActivity extends ListActivity implements Response.Listener
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+        updateData();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.postboard_menu, menu);
         super.onCreateOptionsMenu(menu);
