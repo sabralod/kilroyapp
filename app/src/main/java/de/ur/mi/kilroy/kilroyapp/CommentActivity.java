@@ -19,7 +19,6 @@ import java.util.HashMap;
 
 import de.ur.mi.kilroy.kilroyapp.helper.Log;
 import de.ur.mi.kilroy.kilroyapp.items.CommentItem;
-import de.ur.mi.kilroy.kilroyapp.items.PostItem;
 
 /**
  * Created by simon on 14/09/15.
