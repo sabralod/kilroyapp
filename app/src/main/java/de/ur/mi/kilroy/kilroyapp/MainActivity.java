@@ -1,6 +1,10 @@
 package de.ur.mi.kilroy.kilroyapp;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Camera;
+import android.location.Location;
+import android.location.LocationManager;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.os.Bundle;
@@ -12,9 +16,12 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
@@ -32,6 +39,7 @@ import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.HashMap;
 
+import de.ur.mi.kilroy.kilroyapp.helper.LocationUpdater;
 import de.ur.mi.kilroy.kilroyapp.helper.Log;
 import de.ur.mi.kilroy.kilroyapp.items.MarkerItem;
 import de.ur.mi.kilroy.kilroyapp.items.PostItem;
@@ -39,26 +47,51 @@ import de.ur.mi.kilroy.kilroyapp.items.PostItem;
 /**
  * Created by simon on 13/09/15.
  */
-public class MainActivity extends NfcReaderActivity implements OnMapReadyCallback, Response.Listener<String>, Response.ErrorListener {
+public class MainActivity extends NfcReaderActivity implements OnMapReadyCallback, Response.Listener<String>, Response.ErrorListener, LocationUpdater.locationUpdateListener {
     private GoogleMap googleMap;
     protected Message message;
     private HashMap<Marker, MarkerItem> markerHashMap;
+    private LocationUpdater locationUpdater;
+    private static final int FIX_UPDATE_TIME = 500; // milliseconds
+    private static final int FIX_UPDATE_DISTANCE = 5; // meters
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Maps
 
-        MapFragment mapFragment = (MapFragment) getFragmentManager()
+        // Maps
+        setupMapifNeeded();
+        /*MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map_fragment);
-        mapFragment.getMapAsync(this);
+        mapFragment.getMapAsync(this);*/
         markerHashMap = new HashMap<>();
+        initLocationUpdater();
+
 
         // NFC
 
         setDetecting(true);
+    }
+
+    private void setupMapifNeeded() {
+        if (googleMap == null) {
+            MapFragment mapFragment = (MapFragment) getFragmentManager()
+                    .findFragmentById(R.id.map_fragment);
+            mapFragment.getMapAsync(this);
+        }
+        if (googleMap != null) {
+            updateMap();
+        }
+
+    }
+
+    private void initLocationUpdater() {
+        locationUpdater = new LocationUpdater(Context.LOCATION_SERVICE, FIX_UPDATE_TIME, FIX_UPDATE_DISTANCE, this);
+        locationUpdater.setLocationUpdateListener(this);
+        locationUpdater.requestLocationUpdates();
     }
 
     @Override
@@ -140,6 +173,13 @@ public class MainActivity extends NfcReaderActivity implements OnMapReadyCallbac
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        setupMapifNeeded();
+
+    }
+
+    @Override
     protected void readEmptyNdefMessage() {
         toast(getString(R.string.readEmptyMessage));
     }
@@ -203,6 +243,7 @@ public class MainActivity extends NfcReaderActivity implements OnMapReadyCallbac
     private void updateMap() {
 
         googleMap.setMyLocationEnabled(true);
+        initCamera();
         googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
@@ -219,8 +260,24 @@ public class MainActivity extends NfcReaderActivity implements OnMapReadyCallbac
         AppController.getInstance().addToRequestQueue(request);
     }
 
+    private void initCamera() {
+        Location location = locationUpdater.getLastKnownLocation();
+        if (location != null) {
+            Log.d("is location null?" + location.toString());
+            double latitude = location.getLatitude();
+            double longitude = location.getLongitude();
+            CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 13);
+            googleMap.animateCamera(update);
+        }
+    }
+
     @Override
     public void onErrorResponse(VolleyError error) {
         Log.d("VolleyError: ", error.getMessage());
+    }
+
+    @Override
+    public void onLocationUpdateReceived(Location location) {
+
     }
 }

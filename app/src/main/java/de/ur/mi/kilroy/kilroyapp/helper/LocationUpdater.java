@@ -1,6 +1,7 @@
 package de.ur.mi.kilroy.kilroyapp.helper;
 
 import android.content.Context;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -11,6 +12,7 @@ import android.os.Bundle;
  */
 public class LocationUpdater implements LocationListener {
     private static final String provider = LocationManager.GPS_PROVIDER;
+    private String bestProvider;
     private String locationService;
     private int time;
     private int distance;
@@ -25,20 +27,31 @@ public class LocationUpdater implements LocationListener {
         this.time = time;
         this.distance = distance;
         this.context = context;
+        getBestProvider();
+    }
+
+    private void getBestProvider() {
+        locationManager = (LocationManager) context.getSystemService(locationService);
+
+        Criteria criteria = new Criteria();
+        criteria.setAccuracy(Criteria.ACCURACY_FINE);
+        criteria.setBearingRequired(false);
+
+        bestProvider = locationManager.getBestProvider(criteria, true);
+
     }
 
     public void requestLocationUpdates() {
-        locationManager = (LocationManager) context.getSystemService(locationService);
 
-        Location location = locationManager.getLastKnownLocation(provider);
+        Location location = locationManager.getLastKnownLocation(bestProvider);
 
         publishLocationUpdate(location);
 
-        locationManager.requestLocationUpdates(provider, time, distance, this); //calls onLocationChanged
+        locationManager.requestLocationUpdates(bestProvider, time, distance, this); //calls onLocationChanged
     }
 
     public Location getLastKnownLocation() {
-        Location lastLocation = locationManager.getLastKnownLocation(provider);
+        Location lastLocation = locationManager.getLastKnownLocation(bestProvider);
 
         return lastLocation;
     }

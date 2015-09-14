@@ -8,12 +8,15 @@
         android:id="@+id/view_markerName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_gravity="left"
         android:text="" />
 
     <TextView
         android:id="@+id/view_markerDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingTop="10sp"
         android:layout_gravity="center_horizontal"
         android:text="" />
 </LinearLayout>
