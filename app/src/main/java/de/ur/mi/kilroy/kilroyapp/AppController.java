@@ -16,6 +16,8 @@ public class AppController extends Application {
     public static final int NFC_TAG_WRITER_REQUEST = 101;
     public static final String TAG = AppController.class.getSimpleName();
     public static final String URL = "http://kilroybackend-kilroybackend.rhcloud.com/api/";
+    public static final int CREATE_COMMENT_REQUEST = 301;
+    public static final int CREATE_COMMENT_REQUEST_DONE = 302;
     private static AppController appControllerInstance;
     private RequestQueue requestQueue;
 
