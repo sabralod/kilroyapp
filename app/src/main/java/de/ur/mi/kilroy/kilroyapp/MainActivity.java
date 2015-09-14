@@ -107,8 +107,8 @@ public class MainActivity extends NfcReaderActivity implements OnMapReadyCallbac
         if (id == R.id.action_write_tag) {
             setDetecting(false);
             Intent intent = new Intent(MainActivity.this, KilroyNfcTagWriterActivity.class);
-            intent.putExtra("lat", googleMap.getMyLocation());
-            intent.putExtra("lng", googleMap.getMyLocation());
+            intent.putExtra("lat", googleMap.getMyLocation().getLatitude());
+            intent.putExtra("lng", googleMap.getMyLocation().getLongitude());
             startActivityForResult(intent, AppController.NFC_TAG_WRITER_REQUEST);
         }
 
