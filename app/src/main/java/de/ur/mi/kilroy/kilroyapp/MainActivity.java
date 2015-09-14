@@ -149,8 +149,6 @@ public class MainActivity extends NfcReaderActivity implements OnMapReadyCallbac
             } else { // more else
                 s = new String(record.getNdefRecord().toString());
             }
-
-            toast(s);
         }
     }
 
@@ -269,7 +267,7 @@ public class MainActivity extends NfcReaderActivity implements OnMapReadyCallbac
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        Log.d("VolleyError: ", error != null ? error.getMessage() : null);
+        Log.d("VolleyError: ", error != null ? error.toString() : null);
     }
 
     @Override

@@ -87,7 +87,7 @@ public class PostboardActivity extends ListActivity implements Response.Listener
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        Log.d("VolleyError: ", error.getMessage());
+        Log.d("VolleyError: ", error.toString());
     }
 
     @Override
