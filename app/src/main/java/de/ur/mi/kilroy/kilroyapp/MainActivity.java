@@ -2,11 +2,7 @@ package de.ur.mi.kilroy.kilroyapp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Camera;
 import android.location.Location;
-import android.location.LocationManager;
-import android.nfc.NfcAdapter;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
@@ -153,8 +149,6 @@ public class MainActivity extends NfcReaderActivity implements OnMapReadyCallbac
             } else { // more else
                 s = new String(record.getNdefRecord().toString());
             }
-
-            toast(s);
         }
     }
 
@@ -187,7 +181,7 @@ public class MainActivity extends NfcReaderActivity implements OnMapReadyCallbac
     @Override
     protected void readNonNdefMessage() {
         toast(getString(R.string.readNonNDEFMessage));
-        Tag tag = getIntent().getParcelableExtra(NfcAdapter.EXTRA_TAG);
+//        Tag tag = getIntent().getParcelableExtra(NfcAdapter.EXTRA_TAG);
 
 //        NfcA nfcA = NfcA.get(tag);
 //
@@ -244,17 +238,17 @@ public class MainActivity extends NfcReaderActivity implements OnMapReadyCallbac
 
         googleMap.setMyLocationEnabled(true);
         initCamera();
-        googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                Intent intent = new Intent(MainActivity.this, MarkerDetailActivity.class);
-                MarkerItem item = markerHashMap.get(marker);
-                intent.putExtra("name", item.getName());
-                intent.putExtra("description", item.getDescription());
-                startActivity(intent);
-                return false;
-            }
-        });
+//        googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+//            @Override
+//            public boolean onMarkerClick(Marker marker) {
+//                Intent intent = new Intent(MainActivity.this, MarkerDetailActivity.class);
+//                MarkerItem item = markerHashMap.get(marker);
+//                intent.putExtra("name", item.getName());
+//                intent.putExtra("description", item.getDescription());
+//                startActivity(intent);
+//                return false;
+//            }
+//        });
 
         StringRequest request = new StringRequest(AppController.URL + "posts", this, this);
         AppController.getInstance().addToRequestQueue(request);
@@ -273,7 +267,7 @@ public class MainActivity extends NfcReaderActivity implements OnMapReadyCallbac
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        Log.d("VolleyError: ", error.getMessage());
+        Log.d("VolleyError: ", error != null ? error.toString() : null);
     }
 
     @Override
