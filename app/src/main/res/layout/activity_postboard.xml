@@ -1,26 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
-        android:textSize="20sp"
+        android:textSize="30dp"
         android:id="@+id/titleView" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
-        android:paddingTop="10sp"
-        android:textSize="12sp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:textSize="18dp"
         android:id="@+id/descriptionView" />
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_marginTop="10sp"
-        android:layout_height="wrap_content"
+        android:divider="@null"
+        android:dividerHeight="10dp"
+        android:listSelector="@android:color/transparent"
+        android:cacheColorHint="@android:color/transparent"
+        android:headerDividersEnabled="true"
+        android:footerDividersEnabled="true"
+        android:layout_height="match_parent"
         android:id="@android:id/list" />
 </LinearLayout>

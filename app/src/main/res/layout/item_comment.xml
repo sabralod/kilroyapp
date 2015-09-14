@@ -1,33 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="5sp"
-    android:layout_margin="20sp"
+    android:padding="10dp"
+
     android:background="@android:color/holo_blue_dark">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
-        android:textSize="20sp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:text="aaaaaaaaaa"
+        android:textSize="20dp"
         android:id="@+id/author_textView" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
-        android:textSize="10sp"
-        android:gravity="right"
-
+        android:text="aaaaaaaaaaaa"
+        android:textSize="10dp"
         android:id="@+id/date_textView"
-        android:layout_gravity="right" />
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="5sp"
-        android:text=""
+        android:paddingTop="5dp"
+        android:text="aaaaaaaaa"
+        android:layout_margin="5dp"
+        android:layout_below="@+id/author_textView"
+        android:layout_alignParentStart="true"
         android:id="@+id/content_textView" />
-</LinearLayout>
+</RelativeLayout>

@@ -1,9 +1,10 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Base.ThemeOverlay.AppCompat.Dark.ActionBar">
+    <style name="AppTheme" parent="Base.ThemeOverlay.AppCompat.ActionBar">
     <!--<style name="AppTheme" parent="android.support.v7.app.ActionBar">-->
-        <!-- Customize your theme here. -->
+        <!-- Customize your theme here. Base.ThemeOverlay.AppCompat.Dark.ActionBar -->
+
     </style>
 
 </resources>
