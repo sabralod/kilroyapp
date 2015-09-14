@@ -96,7 +96,7 @@ public class PostItem implements MarkerItem {
 
     @Override
     public String getDescription() {
-//        return getContent();
-        return getContent().concat("/n").concat("nfc_id: ".concat(nfc_id));
+        return getContent();
+//        return getContent().concat("/n").concat("nfc_id: ".concat(nfc_id));
     }
 }

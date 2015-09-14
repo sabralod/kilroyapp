@@ -150,7 +150,6 @@ public class KilroyNfcTagWriterActivity extends NfcTagWriterActivity implements 
             params.put("nfc_id", nfc_id);
 
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(AppController.URL + "posts", new JSONObject(params), this, this);
-
 //                    new JSONObject(params), new Response.Listener<JSONObject>() {
 //                @Override
 //                public void onResponse(JSONObject response) {
@@ -170,7 +169,7 @@ public class KilroyNfcTagWriterActivity extends NfcTagWriterActivity implements 
 
 
             AppController.getInstance().addToRequestQueue(jsonObjectRequest);
-
+            disableForeground();
         }
 
         return super.onOptionsItemSelected(item);
@@ -195,6 +194,7 @@ public class KilroyNfcTagWriterActivity extends NfcTagWriterActivity implements 
         PostItem postItem = gson.fromJson(response.toString(), PostItem.class);
         if (postItem != null) {
             setDetecting(true);
+            enableForeground();
         }
     }
 }

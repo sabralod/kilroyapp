@@ -24,4 +24,8 @@
     <string name="title_activity_nfc_write">Write NFC Tag</string>
     <string name="title_activity_nfc_read">Read NFC tag</string>
     <string name="Postboard">PostBoard</string>
+    <string name="action_create_comment">Create Comment</string>
+    <string name="commentContentTextView">Content</string>
+    <string name="commentAuthorTextView">Author</string>
+    <string name="CommentActivity">Create a comment.</string>
 </resources>
