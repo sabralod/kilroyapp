@@ -238,6 +238,7 @@ public class MainActivity extends NfcReaderActivity implements OnMapReadyCallbac
 
         googleMap.setMyLocationEnabled(true);
         initCamera();
+        setMapOnInfoWindowListener();
 //        googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
 //            @Override
 //            public boolean onMarkerClick(Marker marker) {
@@ -252,6 +253,20 @@ public class MainActivity extends NfcReaderActivity implements OnMapReadyCallbac
 
         StringRequest request = new StringRequest(AppController.URL + "posts", this, this);
         AppController.getInstance().addToRequestQueue(request);
+    }
+
+    private void setMapOnInfoWindowListener() {
+        googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                Intent i = new Intent(MainActivity.this, MarkerDetailActivity.class);
+                MarkerItem markerItem = markerHashMap.get(marker);
+                Log.d("content of markerName after getting it from the hasmap: " + markerItem.getName());
+                i.putExtra("name", markerItem.getName());
+                i.putExtra("description", markerItem.getDescription());
+                startActivity(i);
+            }
+        });
     }
 
     private void initCamera() {
