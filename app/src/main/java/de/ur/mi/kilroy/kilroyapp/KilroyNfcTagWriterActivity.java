@@ -1,10 +1,14 @@
 package de.ur.mi.kilroy.kilroyapp;
 
+import android.content.Context;
+import android.content.Intent;
 import android.nfc.NdefMessage;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -128,16 +132,26 @@ public class KilroyNfcTagWriterActivity extends NfcTagWriterActivity implements 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_write_nfc, menu);
         super.onCreateOptionsMenu(menu);
         return true;
     }
 
+    public void hideKeyboard() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_write_tag) {
 
+
+
+        if (id == R.id.writing_ok) {
+            hideKeyboard();
             final String title = titleEditText.getText().toString();
             final String content = contentEditText.getText().toString();
             final String nfc_id = uuid.toString();
@@ -150,7 +164,9 @@ public class KilroyNfcTagWriterActivity extends NfcTagWriterActivity implements 
             params.put("nfc_id", nfc_id);
 
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(AppController.URL + "posts", new JSONObject(params), this, this);
-//                    new JSONObject(params), new Response.Listener<JSONObject>() {
+
+//
+// new JSONObject(params), new Response.Listener<JSONObject>() {
 //                @Override
 //                public void onResponse(JSONObject response) {
 //                    Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
@@ -169,6 +185,7 @@ public class KilroyNfcTagWriterActivity extends NfcTagWriterActivity implements 
 
 
             AppController.getInstance().addToRequestQueue(jsonObjectRequest);
+
             disableForeground();
         }
 
@@ -187,6 +204,11 @@ public class KilroyNfcTagWriterActivity extends NfcTagWriterActivity implements 
         toast("Write failed.");
         setDetecting(false);
     }
+    private void startPostBoard() {
+        Intent intent = new Intent(this, PostboardActivity.class);
+        intent.putExtra("uuid", uuid.toString());
+        startActivity(intent);
+    }
 
     @Override
     public void onResponse(JSONObject response) {
@@ -195,6 +217,7 @@ public class KilroyNfcTagWriterActivity extends NfcTagWriterActivity implements 
         if (postItem != null) {
             setDetecting(true);
             enableForeground();
+            startPostBoard();
         }
     }
 }
