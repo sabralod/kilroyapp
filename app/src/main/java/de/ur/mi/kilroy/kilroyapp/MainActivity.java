@@ -32,7 +32,6 @@ import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.HashMap;
 
-import de.ur.mi.kilroy.kilroyapp.adapters.PostItemAdapter;
 import de.ur.mi.kilroy.kilroyapp.helper.Log;
 import de.ur.mi.kilroy.kilroyapp.items.MarkerItem;
 import de.ur.mi.kilroy.kilroyapp.items.PostItem;
@@ -40,7 +39,7 @@ import de.ur.mi.kilroy.kilroyapp.items.PostItem;
 /**
  * Created by simon on 13/09/15.
  */
-public class MainActivity extends NfcReaderActivity implements OnMapReadyCallback {
+public class MainActivity extends NfcReaderActivity implements OnMapReadyCallback, Response.Listener<String>, Response.ErrorListener {
     private GoogleMap googleMap;
     protected Message message;
     private HashMap<Marker, MarkerItem> markerHashMap;
@@ -111,16 +110,10 @@ public class MainActivity extends NfcReaderActivity implements OnMapReadyCallbac
             } else if (record instanceof TextRecord) {
                 TextRecord textRecord = (TextRecord) record;
                 s = textRecord.getText();
-
-                PostItemAdapter postItemAdapter = new PostItemAdapter(s);
-
                 // TODO: Start PostboardActivity here
 
-                PostItem postItem = postItemAdapter.getPostItem();
-                Intent intent = new Intent();
-                intent.putExtra("title",postItem.getName());
-                intent.putExtra("description", postItem.getDescription());
-                intent.putExtra("uuid",s);
+                Intent intent = new Intent(MainActivity.this, PostboardActivity.class);
+                intent.putExtra("uuid", s);
                 startActivity(intent);
 
             } else { // more else
@@ -128,6 +121,20 @@ public class MainActivity extends NfcReaderActivity implements OnMapReadyCallbac
             }
 
             toast(s);
+        }
+    }
+
+    @Override
+    public void onResponse(String response) {
+        Type type = new TypeToken<Collection<PostItem>>() {
+        }.getType();
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+        Collection<PostItem> postItems = gson.fromJson(response, type);
+
+        for (MarkerItem item : postItems) {
+
+            Marker marker = googleMap.addMarker(new MarkerOptions().position(item.getMarkerLocation()).title(item.getName()).snippet(item.getDescription()));
+            markerHashMap.put(marker, item);
         }
     }
 
@@ -208,30 +215,12 @@ public class MainActivity extends NfcReaderActivity implements OnMapReadyCallbac
             }
         });
 
-        StringRequest request = new StringRequest(AppController.URL + "posts", new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Type type = new TypeToken<Collection<PostItem>>() {
-                }.getType();
-                Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-                Collection<PostItem> postItems = gson.fromJson(response, type);
-
-                for (MarkerItem item : postItems) {
-
-                   Marker marker = googleMap.addMarker(new MarkerOptions().position(item.getMarkerLocation()).title(item.getName()).snippet(item.getDescription()));
-                    markerHashMap.put(marker, item);
-                }
-
-
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("VolleyError: ", error.getMessage());
-            }
-        });
+        StringRequest request = new StringRequest(AppController.URL + "posts", this, this);
         AppController.getInstance().addToRequestQueue(request);
     }
 
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        Log.d("VolleyError: ", error.getMessage());
+    }
 }

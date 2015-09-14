@@ -61,7 +61,9 @@
             android:label="MarkerDetail"/>
         <activity
             android:name=".KilroyNfcTagWriterActivity"
-            android:label="@string/title_activity_nfc_write"></activity>
+            android:label="@string/title_activity_nfc_write"/>
+        <activity android:name=".PostboardActivity"
+            android:label="@string/Postboard"/>
     </application>
 
 </manifest>
