@@ -98,7 +98,7 @@ public class KilroyNfcTagWriterActivity extends NfcTagWriterActivity implements 
 
     @Override
     protected void writeNdefCannotWriteTech() {
-        toast(getString(R.string.cannotWriteTechMessage));
+      //  toast(getString(R.string.cannotWriteTechMessage));
     }
 
     @Override
@@ -108,7 +108,7 @@ public class KilroyNfcTagWriterActivity extends NfcTagWriterActivity implements 
 
     @Override
     protected void onNfcStateEnabled() {
-        toast(getString(R.string.nfcAvailableEnabled));
+      //  toast(getString(R.string.nfcAvailableEnabled));
     }
 
     @Override
