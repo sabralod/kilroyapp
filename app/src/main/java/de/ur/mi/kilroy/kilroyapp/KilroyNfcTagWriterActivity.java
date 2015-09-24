@@ -217,7 +217,7 @@ public class KilroyNfcTagWriterActivity extends NfcTagWriterActivity implements 
         if (postItem != null) {
             setDetecting(true);
             enableForeground();
-            //startPostBoard(); 
+            //startPostBoard();
         }
     }
 }

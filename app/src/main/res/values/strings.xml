@@ -28,4 +28,7 @@
     <string name="commentContentTextView">Content</string>
     <string name="commentAuthorTextView">Author</string>
     <string name="CommentActivity">Create a comment.</string>
+    <string name="was_ist_kilroy">Was ist Kilroy?</string>
+    <string name="kilroy_explanation">Kilroy erlaubt es dem Nutzer digitale Gästebücher an real existierenden Orten. Dafür werden Nfc-Tags an geeigneten Plätzen platziert. Außerdem können in bereits existierenden Gästebüchern Kommentare hinterlassen werden.</string>
+    <string name="find_postboard">Gästebücher werden durch Marker auf der Karte repräsentiert. Klickt man auf einen solchen, wird der Name des Gästebuchs über dem Marker angezeigt. Ein weiterer Klick auf den Namen öffnet ein Fenster welches eine Beschreibung zum Auffinden des Gästebuchs beinhaltet.</string>
 </resources>
