@@ -31,4 +31,8 @@
     <string name="was_ist_kilroy">Was ist Kilroy?</string>
     <string name="kilroy_explanation">Kilroy erlaubt es dem Nutzer digitale Gästebücher an real existierenden Orten. Dafür werden Nfc-Tags an geeigneten Plätzen platziert. Außerdem können in bereits existierenden Gästebüchern Kommentare hinterlassen werden.</string>
     <string name="find_postboard">Gästebücher werden durch Marker auf der Karte repräsentiert. Klickt man auf einen solchen, wird der Name des Gästebuchs über dem Marker angezeigt. Ein weiterer Klick auf den Namen öffnet ein Fenster welches eine Beschreibung zum Auffinden des Gästebuchs beinhaltet.</string>
+    <string name="eintrag_hinterlassen">Gästebucheintrag hinterlassen</string>
+    <string name="anlegen">Gästebuch anlegen</string>
+    <string name="how_to_post">Um einen Eintrag in einem Gästebuch zu hinterlassen, muss zuvor ein Gästebuch gefunden werden und dessen NFC-Tag mit dem Smartphone gescannt werden. Nun öffnet sich das zum Tag gehörende Gästebuch. einfügen worauf man klicken muss. Es öffnet sich nun ein Fenster mit Eingabefeldern für den Namen des Verfassers und für den Inhalt des Kommentars. Zum Posten des Kommtars klickt man auf den sich unter den Eingabefeldern befindenden post! Button.</string>
+    <string name="create_postboard">Gästebuch anlegen</string>
 </resources>

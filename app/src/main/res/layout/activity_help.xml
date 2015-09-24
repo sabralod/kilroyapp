@@ -8,19 +8,25 @@
         android:layout_height="wrap_content"
         android:text="@string/was_ist_kilroy"
         android:id="@+id/whatsKilroy_view"
+        android:textSize="20dp"
+        android:paddingBottom="8dp"
         />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/kilroy_explanation"
-        android:id="@+id/textView5" />
+        android:id="@+id/textView5"
+        />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Gästebücher finden"
-        android:id="@+id/find_view" />
+        android:id="@+id/find_view"
+        android:textSize="20dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -31,12 +37,29 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/textView8" />
+        android:text="@string/eintrag_hinterlassen"
+        android:id="@+id/textView8"
+        android:textSize="20dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
+        android:text="@string/how_to_post"
         android:id="@+id/textView9" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/create_postboard"
+        android:id="@+id/textView4" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Um ein neues Gästebuch anzulegen, wird ein unbeschriebener NFC-Tag benötigt"
+        android:id="@+id/textView6" />
+
+
 </LinearLayout>
