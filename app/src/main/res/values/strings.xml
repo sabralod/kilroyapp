@@ -19,14 +19,14 @@
     <string name="nfcSettingEnabled">NFC enabled in settings</string>
     <string name="nfcSettingDisabled">NFC disabled in settings</string>
     <string name="NfcReaderActivity">Tag Writer</string>
-    <string name="action_write_tag">Write to tag</string>
+    <string name="action_write_tag">Gästebuch erstellen</string>
     <string name="Title">title</string>
     <string name="title_activity_nfc_write">Write NFC Tag</string>
     <string name="title_activity_nfc_read">Read NFC tag</string>
     <string name="Postboard">PostBoard</string>
     <string name="action_create_comment">Create Comment</string>
-    <string name="commentContentTextView">Content</string>
-    <string name="commentAuthorTextView">Author</string>
+    <string name="commentContentTextView">Inhalt</string>
+    <string name="commentAuthorTextView">Autor</string>
     <string name="CommentActivity">Create a comment.</string>
     <string name="was_ist_kilroy">Was ist Kilroy?</string>
     <string name="kilroy_explanation">Kilroy erlaubt es dem Nutzer digitale Gästebücher an real existierenden Orten. Dafür werden Nfc-Tags an geeigneten Plätzen platziert. Außerdem können in bereits existierenden Gästebüchern Kommentare hinterlassen werden.</string>
