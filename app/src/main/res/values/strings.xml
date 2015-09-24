@@ -3,7 +3,7 @@
     <string name="title_activity_maps">KilroyApp</string>
     <string name="title_activity_nfc">NfcActivity</string>
     <string name="default_note_text">Edit me!</string>
-    <string name="write_to_tag">Write to tag</string>
+    <string name="write_to_tag">Neues Gästebuch erstellen</string>
     <string name="readMultipleRecordNDEFMessage">Reading multiple record NDEF message</string>
     <string name="readSingleRecordNDEFMessage">Reading single record NDEF message</string>
     <string name="noNfcMessage">No NFC support</string>
