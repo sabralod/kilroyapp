@@ -6,6 +6,6 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
 
         android:showAsAction="always"
-        android:icon="@android:drawable/ic_menu_edit"
+        android:icon="@drawable/ic_create_black_24dp"
         android:title="@string/action_create_comment" />
 </menu>
