@@ -1,8 +1,6 @@
 package de.ur.mi.kilroy.kilroyapp.helper;
 
-/**
- * Created by simon on 10/09/15.
- */
+
 public class Log {
     public static final boolean DEBUG = true;
     public static final String TAG = "kilroyApp";

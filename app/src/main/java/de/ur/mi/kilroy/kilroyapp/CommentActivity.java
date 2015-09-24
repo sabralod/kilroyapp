@@ -20,9 +20,7 @@ import java.util.HashMap;
 import de.ur.mi.kilroy.kilroyapp.helper.Log;
 import de.ur.mi.kilroy.kilroyapp.items.CommentItem;
 
-/**
- * Created by simon on 14/09/15.
- */
+
 public class CommentActivity extends Activity implements Response.Listener<JSONObject>, Response.ErrorListener {
 
     private EditText authorEditText;

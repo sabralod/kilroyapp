@@ -8,9 +8,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
-/**
- * Created by simon on 11/09/15.
- */
+
 public class AppController extends Application {
 
     public static final int NFC_TAG_WRITER_REQUEST = 101;

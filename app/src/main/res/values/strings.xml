@@ -35,4 +35,7 @@
     <string name="anlegen">Gästebuch anlegen</string>
     <string name="how_to_post">Um einen Eintrag in einem Gästebuch zu hinterlassen, muss zuvor ein Gästebuch gefunden werden und dessen NFC-Tag mit dem Smartphone gescannt werden. Nun öffnet sich das zum Tag gehörende Gästebuch. einfügen worauf man klicken muss. Es öffnet sich nun ein Fenster mit Eingabefeldern für den Namen des Verfassers und für den Inhalt des Kommentars. Zum Posten des Kommtars klickt man auf den sich unter den Eingabefeldern befindenden post! Button.</string>
     <string name="create_postboard">Gästebuch anlegen</string>
+    <string name="how_to_create_postboard">Um ein neues Gästebuch anzulegen, wird ein unbeschriebener NFC-Tag benötigt. In der Kartenansicht befindet sich im rechtem oberen Bereich ein Plussymbol. Ein Klick darauf öffnet die Ansicht zum erstellen eines neuen Gästebuchs. Dort werden Name und eine Beschreibung zum auffinden des Tags eingegeben. hier noch schreiben wie man auf nfc ag schreibt.</string>
+    <string name="help">Hilfe</string>
+    <string name="label_help">Hilfe</string>
 </resources>

@@ -3,8 +3,13 @@
     <item
         android:id="@+id/action_write_tag"
         android:icon="@drawable/ic_add_circle_black_24dp"
-        android:title="@string/write_to_tag"
-android:orderInCategory="50"
-android:showAsAction="always|withText"
-        />
+        android:orderInCategory="50"
+        android:showAsAction="always"
+        android:title="@string/write_to_tag" />
+
+    <item
+        android:id="@+id/action_help"
+        android:title="@string/help"
+        ></item>
+
 </menu>

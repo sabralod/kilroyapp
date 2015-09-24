@@ -15,9 +15,7 @@ import java.util.List;
 import de.ur.mi.kilroy.kilroyapp.R;
 import de.ur.mi.kilroy.kilroyapp.items.CommentItem;
 
-/**
- * Created by simon on 13/09/15.
- */
+
 public class CommentItemAdapter extends ArrayAdapter<CommentItem> {
 
     private int resource;

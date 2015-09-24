@@ -7,9 +7,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 
-/**
- * Created by simon on 10/09/15.
- */
+
 public class LocationUpdater implements LocationListener {
     private static final String provider = LocationManager.GPS_PROVIDER;
     private String bestProvider;

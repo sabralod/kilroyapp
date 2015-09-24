@@ -7,9 +7,7 @@ import android.widget.TextView;
 
 import de.ur.mi.kilroy.kilroyapp.helper.Log;
 
-/**
- * Created by simon on 10/09/15.
- */
+
 public class MarkerDetailActivity extends Activity {
     private TextView markerNameView;
     private TextView markerDescriptionView;

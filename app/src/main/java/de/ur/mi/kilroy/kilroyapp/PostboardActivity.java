@@ -18,9 +18,7 @@ import de.ur.mi.kilroy.kilroyapp.adapters.CommentItemAdapter;
 import de.ur.mi.kilroy.kilroyapp.helper.Log;
 import de.ur.mi.kilroy.kilroyapp.items.PostItem;
 
-/**
- * Created by simon on 13/09/15.
- */
+
 public class PostboardActivity extends ListActivity implements Response.Listener<String>, Response.ErrorListener {
 
     private TextView nameView;

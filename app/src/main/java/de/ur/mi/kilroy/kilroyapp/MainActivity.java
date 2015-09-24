@@ -40,9 +40,7 @@ import de.ur.mi.kilroy.kilroyapp.helper.Log;
 import de.ur.mi.kilroy.kilroyapp.items.MarkerItem;
 import de.ur.mi.kilroy.kilroyapp.items.PostItem;
 
-/**
- * Created by simon on 13/09/15.
- */
+
 public class MainActivity extends NfcReaderActivity implements OnMapReadyCallback, Response.Listener<String>, Response.ErrorListener, LocationUpdater.locationUpdateListener {
     private GoogleMap googleMap;
     protected Message message;
@@ -106,6 +104,10 @@ public class MainActivity extends NfcReaderActivity implements OnMapReadyCallbac
             intent.putExtra("lat", googleMap.getMyLocation().getLatitude());
             intent.putExtra("lng", googleMap.getMyLocation().getLongitude());
             startActivityForResult(intent, AppController.NFC_TAG_WRITER_REQUEST);
+        }
+        if (id == R.id.action_help) {
+            Intent intent = new Intent(MainActivity.this, HelpActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

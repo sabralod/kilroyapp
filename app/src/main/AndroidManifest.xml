@@ -66,6 +66,9 @@
             android:label="@string/Postboard"/>
         <activity android:name=".CommentActivity"
             android:label="@string/CommentActivity"/>
+
+        <activity android:name=".HelpActivity"
+            android:label="@string/label_help"/>
     </application>
 
 </manifest>

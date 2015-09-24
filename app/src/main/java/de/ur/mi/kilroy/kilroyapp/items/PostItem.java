@@ -6,9 +6,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by simon on 11/09/15.
- */
+
 public class PostItem implements MarkerItem {
     private int id;
     private String title;

@@ -2,9 +2,7 @@ package de.ur.mi.kilroy.kilroyapp.items;
 
 import java.util.Date;
 
-/**
- * Created by simon on 11/09/15.
- */
+
 public class CommentItem {
     int id;
     int post_id;

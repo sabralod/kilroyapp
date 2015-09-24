@@ -31,9 +31,7 @@ import java.util.UUID;
 
 import de.ur.mi.kilroy.kilroyapp.items.PostItem;
 
-/**
- * Created by simon on 12/09/15.
- */
+
 public class KilroyNfcTagWriterActivity extends NfcTagWriterActivity implements Response.Listener<JSONObject>, Response.ErrorListener {
     public static final int NFC_TAG_WRITER_DONE = 200;
 
@@ -144,10 +142,10 @@ public class KilroyNfcTagWriterActivity extends NfcTagWriterActivity implements 
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
 
 
         if (id == R.id.writing_ok) {
@@ -204,6 +202,7 @@ public class KilroyNfcTagWriterActivity extends NfcTagWriterActivity implements 
         toast("Write failed.");
         setDetecting(false);
     }
+
     private void startPostBoard() {
         Intent intent = new Intent(this, PostboardActivity.class);
         intent.putExtra("uuid", uuid.toString());
