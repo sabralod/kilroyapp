@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.android.volley.Response;
@@ -37,6 +39,31 @@ public class CommentActivity extends Activity implements Response.Listener<JSONO
         contentEditText = (EditText) findViewById(R.id.commentContentEditText);
 
         post_id = getIntent().getStringExtra("post_id");
+
+        initButton();
+    }
+
+    private void initButton() {
+        Button postButton = (Button) findViewById(R.id.button_postComment);
+        postButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                executeclick();
+            }
+        });
+    }
+
+    private void executeclick (){
+        final String author = authorEditText.getText().toString();
+        final String content = contentEditText.getText().toString();
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("post_id", post_id);
+        params.put("author", author);
+        params.put("content", "" + content);
+
+        JsonObjectRequest request = new JsonObjectRequest(AppController.URL + "posts/id/" + post_id + "/comments", new JSONObject(params), this, this);
+        AppController.getInstance().addToRequestQueue(request);
     }
 
     @Override
@@ -67,7 +94,7 @@ public class CommentActivity extends Activity implements Response.Listener<JSONO
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_create_comment) {
-            final String author = authorEditText.getText().toString();
+           /* final String author = authorEditText.getText().toString();
             final String content = contentEditText.getText().toString();
 
             HashMap<String, String> params = new HashMap<>();
@@ -76,7 +103,7 @@ public class CommentActivity extends Activity implements Response.Listener<JSONO
             params.put("content", "" + content);
 
             JsonObjectRequest request = new JsonObjectRequest(AppController.URL + "posts/id/" + post_id + "/comments", new JSONObject(params), this, this);
-            AppController.getInstance().addToRequestQueue(request);
+            AppController.getInstance().addToRequestQueue(request);*/
         }
 
         return super.onOptionsItemSelected(item);

@@ -30,13 +30,14 @@
     <string name="commentAuthorTextView">Autor</string>
     <string name="CommentActivity">Create a comment.</string>
     <string name="was_ist_kilroy">Was ist Kilroy?</string>
-    <string name="kilroy_explanation">Kilroy erlaubt es dem Nutzer digitale Gästebücher an real existierenden Orten. Dafür werden Nfc-Tags an geeigneten Plätzen platziert. Außerdem können in bereits existierenden Gästebüchern Kommentare hinterlassen werden.</string>
-    <string name="find_postboard">Gästebücher werden durch Marker auf der Karte repräsentiert. Klickt man auf einen solchen, wird der Name des Gästebuchs über dem Marker angezeigt. Ein weiterer Klick auf den Namen öffnet ein Fenster welches eine Beschreibung zum Auffinden des Gästebuchs beinhaltet.</string>
+    <string name="kilroy_explanation">Kilroy erlaubt es dem Nutzer digitale Gästebücher an real existierenden Orten zu erstellen. Dafür werden NFC-Tags an geeigneten Plätzen angebracht. Außerdem können in bereits existierenden Gästebüchern Kommentare hinterlassen werden.</string>
+    <string name="find_postboard">Gästebücher werden durch Marker auf der Karte repräsentiert. Klickt man auf einen solchen, wird der Name des Gästebuchs über dem Marker angezeigt. Ein weiterer Klick auf den Namen öffnet ein Fenster, welches eine Beschreibung zum Auffinden des Gästebuchs beinhaltet.</string>
     <string name="eintrag_hinterlassen">Gästebucheintrag hinterlassen</string>
     <string name="anlegen">Gästebuch anlegen</string>
-    <string name="how_to_post">Um einen Eintrag in einem Gästebuch zu hinterlassen, muss zuvor ein Gästebuch gefunden werden und dessen NFC-Tag mit dem Smartphone gescannt werden. Nun öffnet sich das zum Tag gehörende Gästebuch. einfügen worauf man klicken muss. Es öffnet sich nun ein Fenster mit Eingabefeldern für den Namen des Verfassers und für den Inhalt des Kommentars. Zum Posten des Kommtars klickt man auf den sich unter den Eingabefeldern befindenden post! Button.</string>
+    <string name="how_to_post">Um einen Eintrag in einem Gästebuch zu hinterlassen, muss zuvor ein Gästebuch gefunden werden und dessen NFC-Tag mit dem Smartphone gescannt werden. Nun öffnet sich das zum Tag gehörende Gästebuch. einfügen worauf man klicken muss. Es öffnet sich nun ein Fenster mit Eingabefeldern für den Namen des Verfassers und für den Inhalt des Kommentars. Zum Posten des Kommentars klickt man auf den Button unter den Eingabefeldern.</string>
     <string name="create_postboard">Gästebuch anlegen</string>
-    <string name="how_to_create_postboard">Um ein neues Gästebuch anzulegen, wird ein unbeschriebener NFC-Tag benötigt. In der Kartenansicht befindet sich im rechtem oberen Bereich ein Plussymbol. Ein Klick darauf öffnet die Ansicht zum erstellen eines neuen Gästebuchs. Dort werden Name und eine Beschreibung zum auffinden des Tags eingegeben. hier noch schreiben wie man auf nfc ag schreibt.</string>
+    <string name="how_to_create_postboard">Um ein neues Gästebuch anzulegen, wird ein unbeschriebener NFC-Tag benötigt. In der Kartenansicht befindet sich im rechtem oberen Bereich ein Plussymbol. Ein Klick darauf öffnet die Ansicht zum Erstellen eines neuen Gästebuchs. Dort werden Name und eine Beschreibung zum Auffinden des Tags eingegeben. hier noch schreiben wie man auf nfc tag schreibt.</string>
     <string name="help">Hilfe</string>
     <string name="label_help">Hilfe</string>
+    <string name="button_post">post!</string>
 </resources>
