@@ -20,11 +20,12 @@
     <string name="nfcSettingDisabled">NFC disabled in settings</string>
     <string name="NfcReaderActivity">Tag Writer</string>
     <string name="action_write_tag">Gästebuch erstellen</string>
-    <string name="Title">title</string>
-    <string name="title_activity_nfc_write">Write NFC Tag</string>
+    <string name="Title">Titel</string>
+    <string name="Content">Tag-Beschreibung</string>
+    <string name="title_activity_nfc_write">Gästebuch erstellen</string>
     <string name="title_activity_nfc_read">Read NFC tag</string>
     <string name="Postboard">PostBoard</string>
-    <string name="action_create_comment">Create Comment</string>
+    <string name="action_create_comment">Kommentar erstellen</string>
     <string name="commentContentTextView">Inhalt</string>
     <string name="commentAuthorTextView">Autor</string>
     <string name="CommentActivity">Create a comment.</string>
