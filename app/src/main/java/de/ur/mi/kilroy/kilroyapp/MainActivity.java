@@ -9,9 +9,12 @@ import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -60,6 +63,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         markerHashMap = new HashMap<>();
         initLocationUpdater();
 
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setLogo(R.mipmap.ic_launcher);
+        actionBar.setDisplayUseLogoEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
 
         // NFC
         resolveIntent(getIntent());
@@ -72,52 +79,57 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (AppController.getInstance().isDetecting()) {
             if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(action)) {
                 Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
-                NdefMessage[] msgs;
-                if (rawMsgs != null) {
-                    msgs = new NdefMessage[rawMsgs.length];
-                    for (int i = 0; i < rawMsgs.length; i++) {
-                        msgs[i] = (NdefMessage) rawMsgs[i];
-                    }
-                } else {
-                    // Unknown tag type
-                    byte[] empty = new byte[]{};
-                    NdefRecord record = new NdefRecord(NdefRecord.TNF_UNKNOWN, empty, empty, empty);
-                    NdefMessage msg = new NdefMessage(new NdefRecord[]{record});
-                    msgs = new NdefMessage[]{msg};
-                }
+                handleTag(rawMsgs);
 
-                if (msgs == null || msgs.length == 0) {
-                    Log.d("No Messages " + intent);
-                    return;
-                }
-
-                List<Record> records;
-                try {
-                    records = new Message(msgs[0]);
-                    final int size = records.size();
-
-                    String uuid = "";
-
-                    for (Record record :
-                            records) {
-                        if (record instanceof TextRecord) {
-                            TextRecord textRecord = (TextRecord) record;
-                            if (textRecord.hasKey()) {
-                                if (textRecord.getKey().equals("uuid"))
-                                    uuid = textRecord.getText();
-                            }
-                        }
-                    }
-
-                    if (uuid != "")
-                        startPostboard(uuid);
-                } catch (FormatException e) {
-                    e.printStackTrace();
-                }
             } else {
                 Log.d("Unknown intent " + intent);
                 return;
             }
+        }
+    }
+
+    private void handleTag(Parcelable[] rawMsgs) {
+        NdefMessage[] msgs;
+        if (rawMsgs != null) {
+            msgs = new NdefMessage[rawMsgs.length];
+            for (int i = 0; i < rawMsgs.length; i++) {
+                msgs[i] = (NdefMessage) rawMsgs[i];
+            }
+        } else {
+            // Unknown tag type
+            byte[] empty = new byte[]{};
+            NdefRecord record = new NdefRecord(NdefRecord.TNF_UNKNOWN, empty, empty, empty);
+            NdefMessage msg = new NdefMessage(new NdefRecord[]{record});
+            msgs = new NdefMessage[]{msg};
+        }
+
+        if (msgs == null || msgs.length == 0) {
+            Log.d("No Messages " + getIntent());
+            return;
+        }
+
+        List<Record> records;
+        try {
+            records = new Message(msgs[0]);
+            final int size = records.size();
+
+            String uuid = "";
+
+            for (Record record :
+                    records) {
+                if (record instanceof TextRecord) {
+                    TextRecord textRecord = (TextRecord) record;
+                    if (textRecord.hasKey()) {
+                        if (textRecord.getKey().equals("uuid"))
+                            uuid = textRecord.getText();
+                    }
+                }
+            }
+
+            if (uuid != "")
+                startPostboard(uuid);
+        } catch (FormatException e) {
+            toast("Reading failed.");
         }
     }
 
@@ -145,6 +157,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         locationUpdater = new LocationUpdater(Context.LOCATION_SERVICE, FIX_UPDATE_TIME, FIX_UPDATE_DISTANCE, this);
         locationUpdater.setLocationUpdateListener(this);
         locationUpdater.requestLocationUpdates();
+    }
+
+    public void toast(String message) {
+        Toast toast = Toast.makeText(this, message, Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
+        toast.show();
     }
 
     @Override
