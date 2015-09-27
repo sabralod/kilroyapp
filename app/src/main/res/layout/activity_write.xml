@@ -7,12 +7,10 @@
         android:layout_height="wrap_content"
         android:text="@string/writer_infoView"
         android:textSize="30dp"
-        android:textColor="@color/wallet_bright_foreground_holo_light"
         android:layout_marginTop="100dp"
         android:layout_marginBottom="5dp"
         android:padding="10dp"
         android:layout_gravity="center"
-        android:background="@color/common_action_bar_splitter"
         android:id="@+id/writer_infoView" />
 
 </LinearLayout>
