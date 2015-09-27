@@ -83,6 +83,7 @@ public class WriterActivity extends NfcTagWriterActivity implements Response.Lis
         PostItem postItem = gson.fromJson(response.toString(), PostItem.class);
         if (postItem != null) {
             startPostBoard(postItem.getNfc_id());
+            AppController.getInstance().setDetecting(true);
             finish();
             return;
         }
@@ -141,7 +142,6 @@ public class WriterActivity extends NfcTagWriterActivity implements Response.Lis
         root.setBackgroundColor(Color.GREEN);
         disableForeground();
 
-//        AppController.getInstance().setDetecting(false);
         setDetecting(false);
 
         HashMap<String, String> params = new HashMap<>();

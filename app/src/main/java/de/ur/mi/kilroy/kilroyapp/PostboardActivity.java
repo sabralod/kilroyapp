@@ -46,7 +46,7 @@ public class PostboardActivity extends AppCompatActivity implements Response.Lis
     @Override
     protected void onResume() {
         super.onResume();
-
+        AppController.getInstance().setDetecting(true);
         updateData();
     }
 
@@ -65,6 +65,7 @@ public class PostboardActivity extends AppCompatActivity implements Response.Lis
                 Intent intent = new Intent(PostboardActivity.this, CommentActivity.class);
                 intent.putExtra("post_id", "" + post_id);
                 startActivityForResult(intent, AppController.CREATE_COMMENT_REQUEST);
+                finish();
             }
         }
 

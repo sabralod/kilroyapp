@@ -70,25 +70,27 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         // NFC
         resolveIntent(getIntent());
-//        AppController.getInstance().setDetecting(true);
     }
 
     private void resolveIntent(Intent intent) {
         String action = intent.getAction();
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
-//        if (AppController.getInstance().isDetecting()) {
-        if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(action)) {
-            Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
-            handleTag(rawMsgs);
+        if (AppController.getInstance().isDetecting()) {
+            if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(action)) {
+                Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+                handleTag(rawMsgs);
 
-        } else if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)) {
-            Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
-            handleTag(rawMsgs);
+            } else if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)) {
+                Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+                handleTag(rawMsgs);
+            } else {
+                Log.d("Unknown intent " + intent);
+                return;
+            }
         } else {
-            Log.d("Unknown intent " + intent);
-            return;
+
         }
-//        }
     }
 
     private void handleTag(Parcelable[] rawMsgs) {
@@ -114,8 +116,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         List<Record> records;
         try {
             records = new Message(msgs[0]);
-            final int size = records.size();
-
             String uuid = "";
 
             for (Record record :
@@ -137,10 +137,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void startPostboard(String uuid) {
-//        AppController.getInstance().setDetecting(false);
         Intent postboardIntent = new Intent(MainActivity.this, PostboardActivity.class);
         postboardIntent.putExtra("uuid", uuid);
         startActivity(postboardIntent);
+        AppController.getInstance().setDetecting(false);
+        finish();
+        return;
     }
 
 
