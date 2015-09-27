@@ -28,7 +28,7 @@
     <string name="action_create_comment">Kommentar erstellen</string>
     <string name="commentContentTextView">Inhalt</string>
     <string name="commentAuthorTextView">Autor</string>
-    <string name="CommentActivity">Create a comment.</string>
+    <string name="CommentActivity">Create a comment</string>
     <string name="was_ist_kilroy">Was ist Kilroy?</string>
     <string name="kilroy_explanation">Kilroy erlaubt es dem Nutzer digitale Gästebücher an real existierenden Orten zu erstellen. Dafür werden NFC-Tags an geeigneten Plätzen angebracht. Außerdem können in bereits existierenden Gästebüchern Kommentare hinterlassen werden.</string>
     <string name="find_postboard">Gästebücher werden durch Marker auf der Karte repräsentiert. Klickt man auf einen solchen, wird der Name des Gästebuchs über dem Marker angezeigt. Ein weiterer Klick auf den Namen öffnet ein Fenster, welches eine Beschreibung zum Auffinden des Gästebuchs beinhaltet.</string>
@@ -40,4 +40,6 @@
     <string name="help">Hilfe</string>
     <string name="label_help">Hilfe</string>
     <string name="button_post">POST!</string>
+    <string name="Write">Write</string>
+    <string name="writer_infoView">Bitte legen Sie ihr Smartphone auf den Tag um ein neues Gästebuch zu erstellen.</string>
 </resources>

@@ -1,16 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="de.ur.mi.kilroy.kilroyapp.PostboardActivity">
     <item
         android:id="@+id/action_create_comment"
         android:orderInCategory="100"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-
-        android:showAsAction="always"
+        app:showAsAction="always"
         android:icon="@drawable/ic_create_black_24dp"
         android:title="@string/action_create_comment" />
 
     <item
         android:id="@+id/action_help"
         android:title="@string/help"
-        ></item>
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        />
 </menu>

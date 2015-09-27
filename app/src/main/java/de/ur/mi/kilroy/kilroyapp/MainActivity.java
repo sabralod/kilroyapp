@@ -3,11 +3,15 @@ package de.ur.mi.kilroy.kilroyapp;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
+import android.nfc.FormatException;
+import android.nfc.NdefMessage;
+import android.nfc.NdefRecord;
+import android.nfc.NfcAdapter;
 import android.os.Bundle;
-import android.view.Gravity;
+import android.os.Parcelable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -25,15 +29,13 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import org.ndeftools.Message;
-import org.ndeftools.MimeRecord;
 import org.ndeftools.Record;
-import org.ndeftools.externaltype.ExternalTypeRecord;
-import org.ndeftools.util.activity.NfcReaderActivity;
 import org.ndeftools.wellknown.TextRecord;
 
 import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 import de.ur.mi.kilroy.kilroyapp.helper.LocationUpdater;
 import de.ur.mi.kilroy.kilroyapp.helper.Log;
@@ -41,36 +43,93 @@ import de.ur.mi.kilroy.kilroyapp.items.MarkerItem;
 import de.ur.mi.kilroy.kilroyapp.items.PostItem;
 
 
-public class MainActivity extends NfcReaderActivity implements OnMapReadyCallback, Response.Listener<String>, Response.ErrorListener, LocationUpdater.locationUpdateListener {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, Response.Listener<String>, Response.ErrorListener, LocationUpdater.locationUpdateListener {
     private GoogleMap googleMap;
-    protected Message message;
     private HashMap<Marker, MarkerItem> markerHashMap;
     private LocationUpdater locationUpdater;
     private static final int FIX_UPDATE_TIME = 500; // milliseconds
     private static final int FIX_UPDATE_DISTANCE = 5; // meters
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         // Maps
-        setupMapifNeeded();
-        /*MapFragment mapFragment = (MapFragment) getFragmentManager()
-                .findFragmentById(R.id.map_fragment);
-        mapFragment.getMapAsync(this);*/
+        setupMapIfNeeded();
         markerHashMap = new HashMap<>();
         initLocationUpdater();
 
 
         // NFC
-
-        setDetecting(true);
+        resolveIntent(getIntent());
+        AppController.getInstance().setDetecting(true);
     }
 
-    private void setupMapifNeeded() {
+    private void resolveIntent(Intent intent) {
+        String action = intent.getAction();
+
+        if (AppController.getInstance().isDetecting()) {
+            if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(action)) {
+                Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+                NdefMessage[] msgs;
+                if (rawMsgs != null) {
+                    msgs = new NdefMessage[rawMsgs.length];
+                    for (int i = 0; i < rawMsgs.length; i++) {
+                        msgs[i] = (NdefMessage) rawMsgs[i];
+                    }
+                } else {
+                    // Unknown tag type
+                    byte[] empty = new byte[]{};
+                    NdefRecord record = new NdefRecord(NdefRecord.TNF_UNKNOWN, empty, empty, empty);
+                    NdefMessage msg = new NdefMessage(new NdefRecord[]{record});
+                    msgs = new NdefMessage[]{msg};
+                }
+
+                if (msgs == null || msgs.length == 0) {
+                    Log.d("No Messages " + intent);
+                    return;
+                }
+
+                List<Record> records;
+                try {
+                    records = new Message(msgs[0]);
+                    final int size = records.size();
+
+                    String uuid = "";
+
+                    for (Record record :
+                            records) {
+                        if (record instanceof TextRecord) {
+                            TextRecord textRecord = (TextRecord) record;
+                            if (textRecord.hasKey()) {
+                                if (textRecord.getKey().equals("uuid"))
+                                    uuid = textRecord.getText();
+                            }
+                        }
+                    }
+
+                    if (uuid != "")
+                        startPostboard(uuid);
+                } catch (FormatException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Log.d("Unknown intent " + intent);
+                return;
+            }
+        }
+    }
+
+    private void startPostboard(String uuid) {
+        AppController.getInstance().setDetecting(false);
+        Intent postboardIntent = new Intent(MainActivity.this, PostboardActivity.class);
+        postboardIntent.putExtra("uuid", uuid);
+        startActivity(postboardIntent);
+    }
+
+
+    private void setupMapIfNeeded() {
         if (googleMap == null) {
             MapFragment mapFragment = (MapFragment) getFragmentManager()
                     .findFragmentById(R.id.map_fragment);
@@ -91,19 +150,18 @@ public class MainActivity extends NfcReaderActivity implements OnMapReadyCallbac
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        super.onCreateOptionsMenu(menu);
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_write_tag) {
-            setDetecting(false);
-            Intent intent = new Intent(MainActivity.this, KilroyNfcTagWriterActivity.class);
+            AppController.getInstance().setDetecting(true);
+            Intent intent = new Intent(MainActivity.this, CreatePostActivity.class);
             intent.putExtra("lat", googleMap.getMyLocation().getLatitude());
             intent.putExtra("lng", googleMap.getMyLocation().getLongitude());
-            startActivityForResult(intent, AppController.NFC_TAG_WRITER_REQUEST);
+            startActivity(intent);
         }
         if (id == R.id.action_help) {
             Intent intent = new Intent(MainActivity.this, HelpActivity.class);
@@ -111,47 +169,6 @@ public class MainActivity extends NfcReaderActivity implements OnMapReadyCallbac
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void readNdefMessage(Message message) {
-        if (message.size() > 1) {
-            toast(getString(R.string.readMultipleRecordNDEFMessage));
-        } else {
-            toast(getString(R.string.readSingleRecordNDEFMessage));
-        }
-
-        this.message = message;
-
-        // process message
-
-        // show in log
-        // iterate through all records in message
-        Log.d("Found " + message.size() + " NDEF records");
-
-        for (int k = 0; k < message.size(); k++) {
-            Record record = message.get(k);
-
-            Log.d("Record " + k + " type " + record.getClass().getSimpleName());
-            String s = "";
-            if (record instanceof MimeRecord) {
-                s = new String(record.getNdefRecord().toString());
-            } else if (record instanceof ExternalTypeRecord) {
-                s = new String(record.getNdefRecord().toString());
-            } else if (record instanceof TextRecord) {
-                TextRecord textRecord = (TextRecord) record;
-                s = textRecord.getText();
-                // TODO: Filter Write Intent
-
-                setDetecting(false);
-                Intent intent = new Intent(MainActivity.this, PostboardActivity.class);
-                intent.putExtra("uuid", s);
-                startActivity(intent);
-
-            } else { // more else
-                s = new String(record.getNdefRecord().toString());
-            }
-        }
     }
 
     @Override
@@ -171,62 +188,13 @@ public class MainActivity extends NfcReaderActivity implements OnMapReadyCallbac
     @Override
     protected void onResume() {
         super.onResume();
-        setupMapifNeeded();
-
+        setupMapIfNeeded();
     }
 
     @Override
-    protected void readEmptyNdefMessage() {
-        toast(getString(R.string.readEmptyMessage));
-    }
-
-    @Override
-    protected void readNonNdefMessage() {
-        toast(getString(R.string.readNonNDEFMessage));
-//        Tag tag = getIntent().getParcelableExtra(NfcAdapter.EXTRA_TAG);
-
-//        NfcA nfcA = NfcA.get(tag);
-//
-//        try {
-//            nfcA.connect();
-//            Short s = nfcA.getSak();
-//            byte[] b = nfcA.getAtqa();
-//            String msg = new String(b, Charset.forName("UTF-8"));
-//            nfcA.close();
-//        } catch (IOException e) {
-//            Log.d(e.getMessage());
-//            toast("Error");
-//        }
-    }
-
-    @Override
-    protected void onNfcStateEnabled() {
-        toast(getString(R.string.nfcAvailableEnabled));
-    }
-
-    @Override
-    protected void onNfcStateDisabled() {
-        toast(getString(R.string.nfcAvailableDisabled));
-    }
-
-    @Override
-    protected void onNfcStateChange(boolean enabled) {
-        if (enabled) {
-            toast(getString(R.string.nfcAvailableEnabled));
-        } else {
-            toast(getString(R.string.nfcAvailableDisabled));
-        }
-    }
-
-    @Override
-    protected void onNfcFeatureNotFound() {
-
-    }
-
-    public void toast(String message) {
-        Toast toast = Toast.makeText(this, message, Toast.LENGTH_LONG);
-        toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
-        toast.show();
+    public void onNewIntent(Intent intent) {
+        setIntent(intent);
+        resolveIntent(intent);
     }
 
     @Override
@@ -237,23 +205,10 @@ public class MainActivity extends NfcReaderActivity implements OnMapReadyCallbac
     }
 
     private void updateMap() {
-
         googleMap.setMyLocationEnabled(true);
 
         initCamera();
         setMapOnInfoWindowListener();
-//        googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-//            @Override
-//            public boolean onMarkerClick(Marker marker) {
-//                Intent intent = new Intent(MainActivity.this, MarkerDetailActivity.class);
-//                MarkerItem item = markerHashMap.get(marker);
-//                intent.putExtra("name", item.getName());
-//                intent.putExtra("description", item.getDescription());
-//                startActivity(intent);
-//                return false;
-//            }
-//        });
-
         StringRequest request = new StringRequest(AppController.URL + "posts", this, this);
         AppController.getInstance().addToRequestQueue(request);
     }

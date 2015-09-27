@@ -32,5 +32,5 @@
         android:headerDividersEnabled="true"
         android:footerDividersEnabled="true"
         android:layout_height="match_parent"
-        android:id="@android:id/list" />
+        android:id="@+id/listView" />
 </LinearLayout>
