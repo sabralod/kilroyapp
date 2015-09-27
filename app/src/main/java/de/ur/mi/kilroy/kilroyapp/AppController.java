@@ -18,6 +18,7 @@ public class AppController extends Application {
     public static final int CREATE_COMMENT_REQUEST_DONE = 302;
     private static AppController appControllerInstance;
     private RequestQueue requestQueue;
+    private boolean detecting = false;
 
     public static synchronized AppController getInstance() {
         return appControllerInstance;
@@ -64,5 +65,13 @@ public class AppController extends Application {
         } catch (final PackageManager.NameNotFoundException e) {
             return appControllerInstance.getClass().getPackage().getName();
         }
+    }
+
+    public void setDetecting(boolean detecting) {
+        this.detecting = detecting;
+    }
+
+    public boolean isDetecting() {
+        return detecting;
     }
 }

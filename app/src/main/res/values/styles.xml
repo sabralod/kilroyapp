@@ -1,10 +1,23 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Base.ThemeOverlay.AppCompat.ActionBar">
+    <!--<style name="AppTheme" parent="Base.ThemeOverlay.AppCompat.Dark.ActionBar">-->
+    <!--<style name="AppTheme" parent="Base.ThemeOverlay.AppCompat.ActionBar">-->
     <!--<style name="AppTheme" parent="android.support.v7.app.ActionBar">-->
         <!-- Customize your theme here. Base.ThemeOverlay.AppCompat.Dark.ActionBar -->
 
+    <!--</style>-->
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
+        <!-- Support library compatibility -->
+        <item name="actionBarStyle">@style/MyActionBar</item>
+    </style>
+
+    <style name="MyActionBar" parent="@style/Widget.AppCompat.ActionBar">
+        <item name="android:background">@android:color/holo_blue_light</item>
+        <!-- Support library compatibility -->
+        <item name="background">@android:color/holo_blue_light</item>
     </style>
 
 </resources>

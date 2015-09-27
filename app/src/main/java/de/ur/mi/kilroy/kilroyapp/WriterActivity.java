@@ -32,7 +32,7 @@ import java.util.UUID;
 import de.ur.mi.kilroy.kilroyapp.items.PostItem;
 
 
-public class KilroyNfcTagWriterActivity extends NfcTagWriterActivity implements Response.Listener<JSONObject>, Response.ErrorListener {
+public class WriterActivity extends NfcTagWriterActivity implements Response.Listener<JSONObject>, Response.ErrorListener {
     public static final int NFC_TAG_WRITER_DONE = 200;
 
     private double lat;
@@ -101,6 +101,7 @@ public class KilroyNfcTagWriterActivity extends NfcTagWriterActivity implements 
 
     @Override
     protected void writeNdefSuccess() {
+        AppController.getInstance().setDetecting(false);
         toast(getString(R.string.ndefWriteSuccess));
     }
 
