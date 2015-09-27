@@ -62,7 +62,7 @@ public class CreatePostActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        
+
         if (id == R.id.action_help) {
             Intent intent = new Intent(CreatePostActivity.this, HelpActivity.class);
             startActivity(intent);

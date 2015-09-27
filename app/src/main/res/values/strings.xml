@@ -24,7 +24,7 @@
     <string name="Content">Tag-Beschreibung</string>
     <string name="title_activity_nfc_write">Gästebuch erstellen</string>
     <string name="title_activity_nfc_read">Read NFC tag</string>
-    <string name="Postboard">PostBoard</string>
+    <string name="Postboard">Gästebuch</string>
     <string name="action_create_comment">Kommentar erstellen</string>
     <string name="commentContentTextView">Inhalt</string>
     <string name="commentAuthorTextView">Autor</string>
