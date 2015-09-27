@@ -141,7 +141,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         postboardIntent.putExtra("uuid", uuid);
         startActivity(postboardIntent);
         AppController.getInstance().setDetecting(false);
-        finish();
         return;
     }
 

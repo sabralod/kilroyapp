@@ -65,7 +65,6 @@ public class PostboardActivity extends AppCompatActivity implements Response.Lis
                 Intent intent = new Intent(PostboardActivity.this, CommentActivity.class);
                 intent.putExtra("post_id", "" + post_id);
                 startActivityForResult(intent, AppController.CREATE_COMMENT_REQUEST);
-                finish();
             }
         }
 
