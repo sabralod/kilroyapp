@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import de.ur.mi.kilroy.kilroyapp.R;
@@ -56,8 +58,12 @@ public class CommentItemAdapter extends ArrayAdapter<CommentItem> {
 
         CommentItem item = (CommentItem) this.objects.get(position);
 
+        DateFormat format = DateFormat.getDateInstance();
+
+        String dateSmall = format.format(item.getSubmission_date());
+
         author.setText(item.getAuthor());
-        date.setText(item.getSubmission_date().toString());
+        date.setText(dateSmall);
         content.setText(item.getContent());
 
         return v;

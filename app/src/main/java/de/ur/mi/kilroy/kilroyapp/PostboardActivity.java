@@ -66,6 +66,11 @@ public class PostboardActivity extends ListActivity implements Response.Listener
             }
         }
 
+        if (id == R.id.action_help) {
+            Intent intent = new Intent(PostboardActivity.this, HelpActivity.class);
+            startActivity(intent);
+        }
+
         return super.onOptionsItemSelected(item);
     }
 

@@ -63,7 +63,7 @@
         </activity>
         <activity
             android:name=".MarkerDetailActivity"
-            android:label="MarkerDetail"/>
+            android:label="Gästebuch Beschreibung"/>
         <activity
             android:name=".WriterActivity"
             android:label="@string/title_activity_nfc_write"/>

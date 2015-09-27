@@ -8,25 +8,38 @@
         android:id="@+id/titleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:layout_gravity="left"
+        android:layout_marginLeft="10dp"
+        android:textSize="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
         android:text="@string/Title" />
 
     <EditText
         android:id="@+id/titleEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:maxLength="90"
+        android:padding="10dp"
+        android:hint="Benenne dein Gästebuch!"/>
 
     <TextView
         android:id="@+id/contentTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:layout_gravity="left"
+        android:layout_marginLeft="10dp"
+        android:textSize="16dp"
+        android:layout_marginTop="20dp"
         android:text="@string/Content" />
 
     <EditText
         android:id="@+id/contentEditView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:lines="4"
+        android:padding="10dp"
+        android:hint="Wo klebt der Tag?"/>
 </LinearLayout>
