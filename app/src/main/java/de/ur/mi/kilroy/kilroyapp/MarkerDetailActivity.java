@@ -3,6 +3,8 @@ package de.ur.mi.kilroy.kilroyapp;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -10,7 +12,7 @@ import android.widget.TextView;
 import de.ur.mi.kilroy.kilroyapp.helper.Log;
 
 
-public class MarkerDetailActivity extends Activity {
+public class MarkerDetailActivity extends AppCompatActivity {
     private TextView markerNameView;
     private TextView markerDescriptionView;
 

@@ -3,6 +3,7 @@ package de.ur.mi.kilroy.kilroyapp;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,7 +24,7 @@ import de.ur.mi.kilroy.kilroyapp.helper.Log;
 import de.ur.mi.kilroy.kilroyapp.items.CommentItem;
 
 
-public class CommentActivity extends Activity implements Response.Listener<JSONObject>, Response.ErrorListener {
+public class CommentActivity extends AppCompatActivity implements Response.Listener<JSONObject>, Response.ErrorListener {
 
     private EditText authorEditText;
     private EditText contentEditText;

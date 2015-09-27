@@ -55,7 +55,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         // Maps
         setupMapIfNeeded();
         markerHashMap = new HashMap<>();
@@ -159,10 +158,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         int id = item.getItemId();
         if (id == R.id.action_write_tag) {
             AppController.getInstance().setDetecting(true);
-            Intent intent = new Intent(MainActivity.this, WriterActivity.class);
+            Intent intent = new Intent(MainActivity.this, CreatePostActivity.class);
             intent.putExtra("lat", googleMap.getMyLocation().getLatitude());
             intent.putExtra("lng", googleMap.getMyLocation().getLongitude());
-            startActivityForResult(intent, AppController.NFC_TAG_WRITER_REQUEST);
+            startActivity(intent);
         }
         if (id == R.id.action_help) {
             Intent intent = new Intent(MainActivity.this, HelpActivity.class);

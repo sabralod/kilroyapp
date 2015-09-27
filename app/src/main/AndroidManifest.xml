@@ -53,10 +53,10 @@
                 <!--<data android:mimeType="text/plain" />-->
             <!--</intent-filter>-->
 
-            <!--<intent-filter>-->
-                <!--<action android:name="android.nfc.action.TECH_DISCOVERED"/>-->
-                <!--<category android:name="android.intent.category.DEFAULT"/>-->
-            <!--</intent-filter>-->
+            <intent-filter>
+                <action android:name="android.nfc.action.TECH_DISCOVERED"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
             <!--<meta-data-->
             <!--android:name="android.nfc.action.TECH_DISCOVERED"-->
             <!--android:resource="@xml/nfc_tech_filter" />-->
@@ -65,15 +65,16 @@
             android:name=".MarkerDetailActivity"
             android:label="Gästebuch Beschreibung"/>
         <activity
-            android:name=".WriterActivity"
+            android:name=".CreatePostActivity"
             android:label="@string/title_activity_nfc_write"/>
         <activity android:name=".PostboardActivity"
             android:label="@string/Postboard"/>
         <activity android:name=".CommentActivity"
             android:label="@string/CommentActivity"/>
-
         <activity android:name=".HelpActivity"
             android:label="@string/label_help"/>
+        <activity android:name=".WriterActivity"
+            android:label="@string/Write"/>
     </application>
 
 </manifest>

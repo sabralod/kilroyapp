@@ -1,8 +1,8 @@
 package de.ur.mi.kilroy.kilroyapp;
 
-import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
@@ -19,10 +19,11 @@ import de.ur.mi.kilroy.kilroyapp.helper.Log;
 import de.ur.mi.kilroy.kilroyapp.items.PostItem;
 
 
-public class PostboardActivity extends ListActivity implements Response.Listener<String>, Response.ErrorListener {
+public class PostboardActivity extends AppCompatActivity implements Response.Listener<String>, Response.ErrorListener {
 
     private TextView nameView;
     private TextView descriptionView;
+    private ListView listView;
     private String uuid = "";
     private String post_id = "";
 
@@ -33,6 +34,7 @@ public class PostboardActivity extends ListActivity implements Response.Listener
 
         nameView = (TextView) findViewById(R.id.titleView);
         descriptionView = (TextView) findViewById(R.id.descriptionView);
+        listView = (ListView) findViewById(R.id.listView);
 
         Intent i = getIntent();
         uuid = i.getStringExtra("uuid");
@@ -109,7 +111,7 @@ public class PostboardActivity extends ListActivity implements Response.Listener
         nameView.setText(postItem.getTitle());
         descriptionView.setText(postItem.getDescription());
 
-        ListView listView = getListView();
+        ListView listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(new CommentItemAdapter(this, R.layout.item_comment, postItem.getComments()));
 
     }
