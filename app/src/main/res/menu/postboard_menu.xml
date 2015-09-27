@@ -8,4 +8,9 @@
         android:showAsAction="always"
         android:icon="@drawable/ic_create_black_24dp"
         android:title="@string/action_create_comment" />
+
+    <item
+        android:id="@+id/action_help"
+        android:title="@string/help"
+        ></item>
 </menu>

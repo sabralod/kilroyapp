@@ -187,6 +187,11 @@ public class KilroyNfcTagWriterActivity extends NfcTagWriterActivity implements 
             disableForeground();
         }
 
+        if (id == R.id.action_help) {
+            Intent intent = new Intent(KilroyNfcTagWriterActivity.this, HelpActivity.class);
+            startActivity(intent);
+        }
+
         return super.onOptionsItemSelected(item);
     }
 

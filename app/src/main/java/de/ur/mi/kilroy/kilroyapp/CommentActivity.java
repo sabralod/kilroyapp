@@ -85,7 +85,7 @@ public class CommentActivity extends Activity implements Response.Listener<JSONO
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.postboard_menu, menu);
+        getMenuInflater().inflate(R.menu.menu_help, menu);
         super.onCreateOptionsMenu(menu);
         return true;
     }
@@ -93,17 +93,11 @@ public class CommentActivity extends Activity implements Response.Listener<JSONO
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_create_comment) {
-           /* final String author = authorEditText.getText().toString();
-            final String content = contentEditText.getText().toString();
-
-            HashMap<String, String> params = new HashMap<>();
-            params.put("post_id", post_id);
-            params.put("author", author);
-            params.put("content", "" + content);
-
-            JsonObjectRequest request = new JsonObjectRequest(AppController.URL + "posts/id/" + post_id + "/comments", new JSONObject(params), this, this);
-            AppController.getInstance().addToRequestQueue(request);*/
+        if (id == R.id.action_help) {
+            if (id == R.id.action_help) {
+                Intent intent = new Intent(CommentActivity.this, HelpActivity.class);
+                startActivity(intent);
+            }
         }
 
         return super.onOptionsItemSelected(item);

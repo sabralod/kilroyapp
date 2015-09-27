@@ -6,4 +6,9 @@
         android:showAsAction="always"
         android:icon="@drawable/ic_done_all_black_24dp"
         android:title="@string/action_write_tag"/>
+
+    <item
+        android:id="@+id/action_help"
+        android:title="@string/help"
+        ></item>
 </menu>
