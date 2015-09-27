@@ -70,22 +70,25 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         // NFC
         resolveIntent(getIntent());
-        AppController.getInstance().setDetecting(true);
+//        AppController.getInstance().setDetecting(true);
     }
 
     private void resolveIntent(Intent intent) {
         String action = intent.getAction();
 
-        if (AppController.getInstance().isDetecting()) {
-            if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(action)) {
-                Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
-                handleTag(rawMsgs);
+//        if (AppController.getInstance().isDetecting()) {
+        if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(action)) {
+            Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+            handleTag(rawMsgs);
 
-            } else {
-                Log.d("Unknown intent " + intent);
-                return;
-            }
+        } else if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)) {
+            Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+            handleTag(rawMsgs);
+        } else {
+            Log.d("Unknown intent " + intent);
+            return;
         }
+//        }
     }
 
     private void handleTag(Parcelable[] rawMsgs) {
@@ -134,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void startPostboard(String uuid) {
-        AppController.getInstance().setDetecting(false);
+//        AppController.getInstance().setDetecting(false);
         Intent postboardIntent = new Intent(MainActivity.this, PostboardActivity.class);
         postboardIntent.putExtra("uuid", uuid);
         startActivity(postboardIntent);
@@ -175,13 +178,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_write_tag) {
-            if (googleMap.getMyLocation()!=null) {
-                AppController.getInstance().setDetecting(true);
+            if (googleMap.getMyLocation() != null) {
+//                AppController.getInstance().setDetecting(true);
                 Intent intent = new Intent(MainActivity.this, CreatePostActivity.class);
                 intent.putExtra("lat", googleMap.getMyLocation().getLatitude());
                 intent.putExtra("lng", googleMap.getMyLocation().getLongitude());
                 startActivity(intent);
-            }else{
+            } else {
                 Toast toast = Toast.makeText(this, "Erstellen nicht möglich, kein GPS-Signal!", Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
                 toast.show();
