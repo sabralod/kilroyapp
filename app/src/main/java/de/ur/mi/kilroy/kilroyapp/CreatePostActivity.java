@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 public class CreatePostActivity extends AppCompatActivity {
@@ -25,32 +27,42 @@ public class CreatePostActivity extends AppCompatActivity {
 
         titleEditText = (EditText) findViewById(R.id.titleEditText);
         contentEditText = (EditText) findViewById(R.id.contentEditView);
+        initButton();
     }
+
+    private void initButton() {
+        Button createButton = (Button) findViewById(R.id.button_create);
+        createButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startWrite();
+            }
+        });
+    }
+
+    private void startWrite() {
+        final String title = titleEditText.getText().toString();
+        final String content = contentEditText.getText().toString();
+
+        Intent intent = new Intent(this, WriterActivity.class);
+        intent.putExtra("title", title);
+        intent.putExtra("content", content);
+        intent.putExtra("lat", "" + lat);
+        intent.putExtra("lng", "" + lng);
+        startActivity(intent);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_write_nfc, menu);
+        getMenuInflater().inflate(R.menu.menu_help, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
-
-        if (id == R.id.writing_ok) {
-//            hideKeyboard();
-            final String title = titleEditText.getText().toString();
-            final String content = contentEditText.getText().toString();
-
-            Intent intent = new Intent(this, WriterActivity.class);
-            intent.putExtra("title", title);
-            intent.putExtra("content", content);
-            intent.putExtra("lat", "" + lat);
-            intent.putExtra("lng", "" + lng);
-            startActivity(intent);
-        }
-
+        
         if (id == R.id.action_help) {
             Intent intent = new Intent(CreatePostActivity.this, HelpActivity.class);
             startActivity(intent);
