@@ -239,6 +239,7 @@ public class MainActivity extends NfcReaderActivity implements OnMapReadyCallbac
     private void updateMap() {
 
         googleMap.setMyLocationEnabled(true);
+
         initCamera();
         setMapOnInfoWindowListener();
 //        googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
