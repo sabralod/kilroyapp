@@ -6,6 +6,7 @@ import android.nfc.NdefMessage;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,9 +57,12 @@ public class WriterActivity extends NfcTagWriterActivity implements Response.Lis
         View view = findViewById(R.id.writer_infoView);
         View root = view.getRootView();
 
-        root.setBackgroundColor(Color.RED);
+        //root.setBackgroundColor(Color.RED);
+
+
 
     }
+
 
     private void startPostBoard(String uuid) {
         Intent intent = new Intent(this, PostboardActivity.class);

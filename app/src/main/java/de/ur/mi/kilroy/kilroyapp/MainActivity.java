@@ -175,11 +175,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_write_tag) {
-            AppController.getInstance().setDetecting(true);
-            Intent intent = new Intent(MainActivity.this, CreatePostActivity.class);
-            intent.putExtra("lat", googleMap.getMyLocation().getLatitude());
-            intent.putExtra("lng", googleMap.getMyLocation().getLongitude());
-            startActivity(intent);
+            if (googleMap.getMyLocation()!=null) {
+                AppController.getInstance().setDetecting(true);
+                Intent intent = new Intent(MainActivity.this, CreatePostActivity.class);
+                intent.putExtra("lat", googleMap.getMyLocation().getLatitude());
+                intent.putExtra("lng", googleMap.getMyLocation().getLongitude());
+                startActivity(intent);
+            }else{
+                Toast toast = Toast.makeText(this, "Erstellen nicht möglich, kein GPS-Signal!", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
+                toast.show();
+            }
         }
         if (id == R.id.action_help) {
             Intent intent = new Intent(MainActivity.this, HelpActivity.class);
@@ -224,6 +230,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void updateMap() {
         googleMap.setMyLocationEnabled(true);
+
         initCamera();
         setMapOnInfoWindowListener();
         StringRequest request = new StringRequest(AppController.URL + "posts", this, this);
