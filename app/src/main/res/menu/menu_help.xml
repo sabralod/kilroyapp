@@ -5,8 +5,9 @@
     tools:context="de.ur.mi.kilroy.kilroyapp.HelpActivity">
     <item
         android:id="@+id/action_help"
+        android:icon="@drawable/ic_menu_help"
         android:title="@string/help"
         android:orderInCategory="100"
-        app:showAsAction="never"
+        app:showAsAction="always"
         />
 </menu>

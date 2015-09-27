@@ -41,5 +41,5 @@
     <string name="label_help">Hilfe</string>
     <string name="button_post">POST!</string>
     <string name="Write">Write</string>
-    <string name="writer_infoView">Bitte legen Sie ihr Smartphone auf den Tag um ein neues Gästebuch zu erstellen.</string>
+    <string name="writer_infoView">Bitte halten Sie ihr Smartphone an den NFC Tag.</string>
 </resources>

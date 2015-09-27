@@ -2,12 +2,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="de.ur.mi.kilroy.kilroyapp.CreatePostActivity">
-
+    <item
+        android:id="@+id/writing_ok"
+        android:orderInCategory="100"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_menu_save"
+        android:title="@string/action_write_tag"/>
 
     <item
         android:id="@+id/action_help"
+        android:icon="@drawable/ic_menu_help"
         android:title="@string/help"
-        android:orderInCategory="100"
-        app:showAsAction="never"
+        android:orderInCategory="99"
+        app:showAsAction="always"
         />
 </menu>
