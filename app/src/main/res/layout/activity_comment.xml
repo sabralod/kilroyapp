@@ -7,27 +7,38 @@
         android:id="@+id/titleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/commentAuthorTextView" />
+        android:layout_gravity="left"
+        android:layout_marginLeft="10dp"
+        android:textSize="16dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/commentAuthorTextView"
+        android:layout_marginBottom="10dp"
+        />
 
     <EditText
         android:id="@+id/commentAuthorEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:hint="Wie heißt du?"/>
 
     <TextView
         android:id="@+id/contentTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/commentContentTextView" />
+        android:layout_gravity="left"
+        android:textSize="16dp"
+        android:layout_marginLeft="10dp"
+        android:text="@string/commentContentTextView"
+        android:layout_marginTop="20dp"/>
 
     <EditText
         android:id="@+id/commentContentEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:lines="4"
+        android:hint="Hinterlasse eine Nachricht!"
         />
 
     <Button

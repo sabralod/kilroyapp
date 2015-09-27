@@ -58,7 +58,7 @@
         </activity>
         <activity
             android:name=".MarkerDetailActivity"
-            android:label="MarkerDetail"/>
+            android:label="Gästebuch Beschreibung"/>
         <activity
             android:name=".KilroyNfcTagWriterActivity"
             android:label="@string/title_activity_nfc_write"/>
