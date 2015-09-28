@@ -45,6 +45,9 @@ import de.ur.mi.kilroy.kilroyapp.helper.Log;
 import de.ur.mi.kilroy.kilroyapp.items.MarkerItem;
 import de.ur.mi.kilroy.kilroyapp.items.PostItem;
 
+// MainActivity represents the start point of the application.
+// Setup and handle GoogleMap. Create the marker items.
+// Handle NFC intends, read tags and starts the child activities.
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, Response.Listener<String>, Response.ErrorListener, LocationUpdater.locationUpdateListener {
     private GoogleMap googleMap;
@@ -58,19 +61,26 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Maps
+//        Maps
+
         setupMapIfNeeded();
         markerHashMap = new HashMap<>();
         initLocationUpdater();
+
+//        Actionbar
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setLogo(R.mipmap.ic_launcher);
         actionBar.setDisplayUseLogoEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
 
-        // NFC
+//        Intends
+
         resolveIntent(getIntent());
     }
+
+//    Handles incoming intends and filter NFC actions.
+//    Starts reading, when NFC action is discovered. If not run forward.
 
     private void resolveIntent(Intent intent) {
         String action = intent.getAction();
@@ -92,6 +102,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         }
     }
+
+//    Handle NFC tag messages.
+//    Tries to read a NDEF formatted NFC tag, if the tag is an unknown type, try to get the record.
+//    If the uuid is read successfully, start PostBoardActivity. If not show toast.
 
     private void handleTag(Parcelable[] rawMsgs) {
         NdefMessage[] msgs;
@@ -136,14 +150,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
+//    Start PostBoardActivity with uuid.
+
     private void startPostboard(String uuid) {
-        Intent postboardIntent = new Intent(MainActivity.this, PostboardActivity.class);
+        Intent postboardIntent = new Intent(MainActivity.this, PostBoardActivity.class);
         postboardIntent.putExtra("uuid", uuid);
         startActivity(postboardIntent);
         AppController.getInstance().setDetecting(false);
         return;
     }
 
+//    Setup GoogleMap if needed.
 
     private void setupMapIfNeeded() {
         if (googleMap == null) {
@@ -157,11 +174,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
+//    Initialize LocationUpdater.
+
     private void initLocationUpdater() {
         locationUpdater = new LocationUpdater(Context.LOCATION_SERVICE, FIX_UPDATE_TIME, FIX_UPDATE_DISTANCE, this);
         locationUpdater.setLocationUpdateListener(this);
         locationUpdater.requestLocationUpdates();
     }
+
+//    Send short messages to view.
 
     public void toast(String message) {
         Toast toast = Toast.makeText(this, message, Toast.LENGTH_LONG);
@@ -178,19 +199,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+
+//        Create new tag. Get user location from GoogleMap, put it to CreatePostActivity and start CreatePostActivity.
         if (id == R.id.action_write_tag) {
             if (googleMap.getMyLocation() != null) {
-//                AppController.getInstance().setDetecting(true);
                 Intent intent = new Intent(MainActivity.this, CreatePostActivity.class);
                 intent.putExtra("lat", googleMap.getMyLocation().getLatitude());
                 intent.putExtra("lng", googleMap.getMyLocation().getLongitude());
                 startActivity(intent);
             } else {
-                Toast toast = Toast.makeText(this, "Erstellen nicht möglich, kein GPS-Signal!", Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
-                toast.show();
+
+//                If the location cant be detected, show a short messages to user.
+                toast(getString(R.string.no_gps_detected));
             }
         }
+
+//      Start HelpActivity
         if (id == R.id.action_help) {
             Intent intent = new Intent(MainActivity.this, HelpActivity.class);
             startActivity(intent);
@@ -201,11 +225,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onResponse(String response) {
+
+//        Setup gson. Use Type cause Collection<Collection<PostItem>> doesn't work here.
         Type type = new TypeToken<Collection<PostItem>>() {
         }.getType();
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+
+//        Parse json response with gson.
         Collection<PostItem> postItems = gson.fromJson(response, type);
 
+//      Setup marker items. PostItem implements MarkerItem interface.
         for (MarkerItem item : postItems) {
 
             Marker marker = googleMap.addMarker(new MarkerOptions().position(item.getMarkerLocation()).title(item.getName()).snippet(item.getDescription()));
@@ -218,6 +247,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onResume();
         setupMapIfNeeded();
     }
+
+//    Catch the new intent.
 
     @Override
     public void onNewIntent(Intent intent) {
@@ -232,6 +263,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         updateMap();
     }
 
+// Update GoogleMap.
+
     private void updateMap() {
         googleMap.setMyLocationEnabled(true);
 
@@ -240,6 +273,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         StringRequest request = new StringRequest(AppController.URL + "posts", this, this);
         AppController.getInstance().addToRequestQueue(request);
     }
+
+//    Setup listener for marker item detail view. Start MarkerDetailActivity if the marker info window was clicked.
 
     private void setMapOnInfoWindowListener() {
         googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
@@ -254,6 +289,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
     }
+
+//    Initialize location.
 
     private void initCamera() {
         Location location = locationUpdater.getLastKnownLocation();

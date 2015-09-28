@@ -1,9 +1,7 @@
 package de.ur.mi.kilroy.kilroyapp;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,6 +9,7 @@ import android.widget.TextView;
 
 import de.ur.mi.kilroy.kilroyapp.helper.Log;
 
+// Holds the marker detail view. Shows the user only the name and the description of the post.
 
 public class MarkerDetailActivity extends AppCompatActivity {
     private TextView markerNameView;
@@ -48,6 +47,8 @@ public class MarkerDetailActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+
+//        Start help view.
         if (id == R.id.action_help) {
             if (id == R.id.action_help) {
                 Intent intent = new Intent(MarkerDetailActivity.this, HelpActivity.class);

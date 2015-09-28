@@ -9,9 +9,10 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
 
+// AppController hold the request queue for all other classes.
+
 public class AppController extends Application {
 
-    public static final int NFC_TAG_WRITER_REQUEST = 101;
     public static final String TAG = AppController.class.getSimpleName();
     public static final String URL = "http://kilroybackend-kilroybackend.rhcloud.com/api/";
     public static final int CREATE_COMMENT_REQUEST = 301;
@@ -20,6 +21,7 @@ public class AppController extends Application {
     private RequestQueue requestQueue;
     private boolean detecting = true;
 
+    // Use always the same AppController instance.
     public static synchronized AppController getInstance() {
         return appControllerInstance;
     }
@@ -57,6 +59,8 @@ public class AppController extends Application {
             requestQueue.cancelAll(tag);
     }
 
+//    PlayIdentifier for NFC tag application record
+
     public static String getPlayIdentifier() {
         PackageInfo pi;
         try {
@@ -71,6 +75,7 @@ public class AppController extends Application {
         this.detecting = detecting;
     }
 
+    //    Detect NFC intends, default true.
     public boolean isDetecting() {
         return detecting;
     }

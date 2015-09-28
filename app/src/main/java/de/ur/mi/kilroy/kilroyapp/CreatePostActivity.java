@@ -9,6 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+// CreatePostActivity hold the view for creating a new post on a tag.
+// First get the user input, then start WriterActivity for NFC tag writing and backend request.
+
 public class CreatePostActivity extends AppCompatActivity {
 
     private double lat;
@@ -39,6 +42,7 @@ public class CreatePostActivity extends AppCompatActivity {
         });
     }
 
+//    Gives the user input to WriterActivity, start WriterActivity and finish this view.
     private void startWrite() {
         final String title = titleEditText.getText().toString();
         final String content = contentEditText.getText().toString();

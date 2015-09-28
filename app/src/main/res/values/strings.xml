@@ -42,4 +42,5 @@
     <string name="button_post">POST!</string>
     <string name="Write">Write</string>
     <string name="writer_infoView">Bitte halten Sie ihr Smartphone an den NFC Tag.</string>
+    <string name="no_gps_detected">Erstellen nicht möglich, kein GPS-Signal!</string>
 </resources>

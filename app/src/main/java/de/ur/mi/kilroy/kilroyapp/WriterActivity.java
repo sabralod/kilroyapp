@@ -6,8 +6,6 @@ import android.nfc.NdefMessage;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
@@ -29,9 +27,9 @@ import java.util.UUID;
 
 import de.ur.mi.kilroy.kilroyapp.items.PostItem;
 
-/**
- * Created by simon on 27/09/15.
- */
+// WriterActivity writes a single uuid identifier to a NFC tag, creates a new post and start PostBoardActivity if succeed.
+// The parent class NfcTagWriterActivity is used as NFC toolbox for NFC tag creation.
+
 public class WriterActivity extends NfcTagWriterActivity implements Response.Listener<JSONObject>, Response.ErrorListener {
 
     private String title;
@@ -52,20 +50,17 @@ public class WriterActivity extends NfcTagWriterActivity implements Response.Lis
         lng = getIntent().getStringExtra("lng");
         uuid = UUID.randomUUID().toString();
 
+//        Activate NFC detection.
         setDetecting(true);
 
-        View view = findViewById(R.id.writer_infoView);
-        View root = view.getRootView();
-
-        //root.setBackgroundColor(Color.RED);
-
-
-
+//        View view = findViewById(R.id.writer_infoView);
+//        View root = view.getRootView();
+//        root.setBackgroundColor(Color.RED);
     }
 
-
+// Start post board view.
     private void startPostBoard(String uuid) {
-        Intent intent = new Intent(this, PostboardActivity.class);
+        Intent intent = new Intent(this, PostBoardActivity.class);
         intent.putExtra("uuid", uuid.toString());
         startActivity(intent);
     }
@@ -77,10 +72,17 @@ public class WriterActivity extends NfcTagWriterActivity implements Response.Lis
 
     @Override
     public void onResponse(JSONObject response) {
+//        deactivate detecting, no more use. Enable foreground.
         setDetecting(false);
         enableForeground();
+
+//        Setup gson.
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+
+//        Parse json response with gson into PostItem.
         PostItem postItem = gson.fromJson(response.toString(), PostItem.class);
+
+//        If succeed start PostBoardActivity, unlock NFC detection and finish this view.
         if (postItem != null) {
             startPostBoard(postItem.getNfc_id());
             AppController.getInstance().setDetecting(true);
@@ -89,12 +91,13 @@ public class WriterActivity extends NfcTagWriterActivity implements Response.Lis
         }
     }
 
+//  Creates a NdefMessage for NFC tag.
+
     @Override
     protected NdefMessage createNdefMessage() {
-        // compose our own message
         Message message = new Message();
 
-        // add a Text Record with the message which is entered
+//        add text record with the message
         TextRecord textRecord = new TextRecord();
         textRecord.setKey("uuid");
         textRecord.setText(uuid.toString());
@@ -102,7 +105,7 @@ public class WriterActivity extends NfcTagWriterActivity implements Response.Lis
         textRecord.setLocale(Locale.ENGLISH);
         message.add(textRecord);
 
-        // add an Android Application Record so that this app is launches if a tag is scanned :-)
+//        add an Android Application Record so that this app is launches if a tag is scanned :-)
         AndroidApplicationRecord androidApplicationRecord = new AndroidApplicationRecord();
         androidApplicationRecord.setPackageName(AppController.getPlayIdentifier());
         message.add(androidApplicationRecord);
@@ -134,6 +137,8 @@ public class WriterActivity extends NfcTagWriterActivity implements Response.Lis
         toast(getString(R.string.cannotWriteTechMessage));
     }
 
+//    If writing was successfully, send the user input to backend.
+
     @Override
     protected void writeNdefSuccess() {
         View view = findViewById(R.id.writer_infoView);
@@ -142,8 +147,10 @@ public class WriterActivity extends NfcTagWriterActivity implements Response.Lis
         root.setBackgroundColor(Color.GREEN);
         disableForeground();
 
+//        Disable detection. No more use.
         setDetecting(false);
 
+//        Setup json params.
         HashMap<String, String> params = new HashMap<>();
         params.put("title", title);
         params.put("content", content);
@@ -151,8 +158,10 @@ public class WriterActivity extends NfcTagWriterActivity implements Response.Lis
         params.put("lng", "" + lng);
         params.put("nfc_id", uuid);
 
+//      Create json request.
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(AppController.URL + "posts", new JSONObject(params), this, this);
 
+//        Add json request to request queue in AppController.
         AppController.getInstance().addToRequestQueue(jsonObjectRequest);
 
         toast(getString(R.string.ndefWriteSuccess));

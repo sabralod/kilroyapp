@@ -60,7 +60,7 @@
         <activity
             android:name=".CreatePostActivity"
             android:label="@string/title_activity_nfc_write"/>
-        <activity android:name=".PostboardActivity"
+        <activity android:name=".PostBoardActivity"
             android:label="@string/Postboard"/>
         <activity android:name=".CommentActivity"
             android:label="@string/CommentActivity"/>

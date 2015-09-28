@@ -1,5 +1,6 @@
 package de.ur.mi.kilroy.kilroyapp.helper;
 
+// Helper class, handles application log.
 
 public class Log {
     public static final boolean DEBUG = true;

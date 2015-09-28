@@ -7,6 +7,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 
+// Helper class, handles location updates for GoogleMap.
 
 public class LocationUpdater implements LocationListener {
     private static final String provider = LocationManager.GPS_PROVIDER;

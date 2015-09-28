@@ -22,6 +22,7 @@ import java.util.HashMap;
 import de.ur.mi.kilroy.kilroyapp.helper.Log;
 import de.ur.mi.kilroy.kilroyapp.items.CommentItem;
 
+// CommentActivity hold the comment create view.
 
 public class CommentActivity extends AppCompatActivity implements Response.Listener<JSONObject>, Response.ErrorListener {
 
@@ -53,16 +54,20 @@ public class CommentActivity extends AppCompatActivity implements Response.Liste
         });
     }
 
-    private void executeClick(){
+    private void executeClick() {
         final String author = authorEditText.getText().toString();
         final String content = contentEditText.getText().toString();
 
+//        Setup params for json request.
         HashMap<String, String> params = new HashMap<>();
         params.put("post_id", post_id);
         params.put("author", author);
         params.put("content", "" + content);
 
+//        Create json request.
         JsonObjectRequest request = new JsonObjectRequest(AppController.URL + "posts/id/" + post_id + "/comments", new JSONObject(params), this, this);
+
+//        Add json request to request queue.
         AppController.getInstance().addToRequestQueue(request);
     }
 
@@ -73,11 +78,16 @@ public class CommentActivity extends AppCompatActivity implements Response.Liste
 
     @Override
     public void onResponse(JSONObject response) {
+//        Setup gson.
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-        CommentItem postItem = gson.fromJson(response.toString(), CommentItem.class);
-        if (postItem != null) {
+
+//        Parse json response with gson into CommentItem.
+        CommentItem commentItem = gson.fromJson(response.toString(), CommentItem.class);
+
+//        If succeed, set result and finish this view.
+        if (commentItem != null) {
             Intent intent = getIntent();
-            intent.putExtra("post_id", "" + postItem.getPost_id());
+            intent.putExtra("post_id", "" + commentItem.getPost_id());
             setResult(AppController.CREATE_COMMENT_REQUEST_DONE, intent);
             finish();
         }
@@ -94,6 +104,7 @@ public class CommentActivity extends AppCompatActivity implements Response.Liste
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_help) {
+//            Start help view.
             if (id == R.id.action_help) {
                 Intent intent = new Intent(CommentActivity.this, HelpActivity.class);
                 startActivity(intent);
