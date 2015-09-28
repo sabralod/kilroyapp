@@ -119,6 +119,7 @@ public class PostBoardActivity extends AppCompatActivity implements Response.Lis
         nameView.setText(postItem.getTitle());
         descriptionView.setText(postItem.getDescription());
 
+//        Set CommentItemAdapter as list view adapter.
         ListView listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(new CommentItemAdapter(this, R.layout.item_comment, postItem.getComments()));
 
