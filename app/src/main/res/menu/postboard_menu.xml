@@ -6,7 +6,7 @@
         android:id="@+id/action_create_comment"
         android:orderInCategory="100"
         app:showAsAction="always"
-        android:icon="@drawable/ic_menu_save"
+        android:icon="@drawable/ic_menu_send_72"
         android:title="@string/action_create_comment" />
 
     <item
