@@ -237,7 +237,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //      Setup marker items. PostItem implements MarkerItem interface.
         for (MarkerItem item : postItems) {
 
-            Marker marker = googleMap.addMarker(new MarkerOptions().position(item.getMarkerLocation()).title(item.getName()).snippet(item.getDescription()));
+            String shortDescription = "";
+
+            if (item.getDescription().length() > 30) {
+                 shortDescription = item.getDescription().substring(0, 30).concat("...");
+            } else {
+                shortDescription = item.getDescription();
+            }
+            Marker marker = googleMap.addMarker(new MarkerOptions().position(item.getMarkerLocation()).title(item.getName()).snippet(shortDescription));
             markerHashMap.put(marker, item);
         }
     }
