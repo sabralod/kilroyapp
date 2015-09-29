@@ -1,5 +1,8 @@
 # Created by https://www.gitignore.io/api/android,intellij,eclipse,java
 
+### Mac ###
+.DS_Store
+
 ### Word ###
 # Word tmp file
 \~$*
